@@ -1,46 +1,51 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@apollo/client';
 import PropertyCard from '../components/PropertyCard.jsx';
-import { properties } from '../data/properties.js';
+import { GET_PROPERTIES } from '../graphql/operations.js';
 
 export default function Properties() {
   const [search, setSearch] = useState('');
+  const [type, setType] = useState('');
 
-  // useMemo recalculates the filtered list only when the search text changes.
-  const filteredProperties = useMemo(() => {
-    const text = search.toLowerCase().trim();
-    if (!text) return properties;
+  // Apollo runs this GraphQL query and automatically gives us loading, error and data states.
+  const { loading, error, data } = useQuery(GET_PROPERTIES, {
+    variables: {
+      search: search.trim() || null,
+      type: type || null,
+    },
+  });
 
-    return properties.filter((property) =>
-      `${property.title} ${property.location} ${property.type}`.toLowerCase().includes(text),
-    );
-  }, [search]);
+  const properties = data?.properties ?? [];
 
   return (
     <main className="page section">
       <div className="page-heading">
         <p className="eyebrow">Find your space</p>
         <h1>Homes that fit your life.</h1>
-        <p>Browse verified rooms, studios and apartments.</p>
+        <p>Browse rooms, studios and apartments from SheNest landlords.</p>
       </div>
 
       <div className="filter-bar">
         <input
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          placeholder="Search by area or property type"
+          placeholder="Search by area or property name"
           aria-label="Search properties"
         />
-        <select aria-label="Property type" defaultValue="all">
-          <option value="all">All types</option>
-          <option>Studio</option>
-          <option>Apartment</option>
-          <option>Shared apartment</option>
+        <select value={type} onChange={(event) => setType(event.target.value)} aria-label="Property type">
+          <option value="">All types</option>
+          <option value="Studio">Studio</option>
+          <option value="Apartment">Apartment</option>
+          <option value="Shared apartment">Shared apartment</option>
         </select>
       </div>
 
-      <p className="results-count">{filteredProperties.length} homes found</p>
+      {loading && <p className="results-count">Loading homes...</p>}
+      {error && <p className="results-count">Could not load homes. Is the API running?</p>}
+      {!loading && !error && <p className="results-count">{properties.length} homes found</p>}
+
       <div className="property-grid">
-        {filteredProperties.map((property) => <PropertyCard key={property.id} property={property} />)}
+        {properties.map((property) => <PropertyCard key={property.id} property={property} />)}
       </div>
     </main>
   );
