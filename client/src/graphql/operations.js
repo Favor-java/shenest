@@ -14,4 +14,6 @@ export const GET_REVIEWS = gql`query Reviews($propertyId:ID!){propertyReviews(pr
 export const ADD_REVIEW = gql`mutation AddReview($propertyId:ID!,$rating:Int!,$comment:String){addReview(propertyId:$propertyId,rating:$rating,comment:$comment){id rating comment}}`;
 export const GET_ROOMMATES = gql`query Roommates($location:String){roommateProfiles(location:$location){id userId bio location budget moveIn lifestyle user{id name}}}`;
 export const SAVE_ROOMMATE = gql`mutation SaveRoommate($bio:String!,$location:String!,$budget:Int!,$moveIn:String,$lifestyle:String){saveRoommateProfile(bio:$bio,location:$location,budget:$budget,moveIn:$moveIn,lifestyle:$lifestyle){id userId bio location budget moveIn lifestyle}}`;
+export const GET_MESSAGES = gql`query Messages($userId:ID!){messagesWith(userId:$userId){id text senderId receiverId sender{id name} receiver{id name}}}`;
+export const SEND_MESSAGE = gql`mutation SendMessage($receiverId:ID!,$text:String!){sendMessage(receiverId:$receiverId,text:$text){id text senderId receiverId sender{id name} receiver{id name}}}`;
 export const VERIFY_PROPERTY = gql`${PROPERTY_FIELDS} mutation VerifyProperty($propertyId:ID!){verifyProperty(propertyId:$propertyId){...PropertyFields}}`;
