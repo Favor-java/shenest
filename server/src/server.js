@@ -22,4 +22,10 @@ app.use('/api', socialRouter);
 
 app.get('/api/health', (req, res) => res.json({ ok: true, message: 'SheNest REST API is working.' }));
 
+// Keep errors readable for the React frontend, including upload errors from Multer.
+app.use((error, req, res, next) => {
+  console.error(error);
+  res.status(400).json({ message: error.message || 'Something went wrong.' });
+});
+
 app.listen(port, () => console.log(`SheNest API running on http://localhost:${port}`));
