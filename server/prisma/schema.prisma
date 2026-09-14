@@ -7,29 +7,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  USER
-  LANDLORD
-  ADMIN
-}
-
-enum BookingStatus {
-  PENDING
-  APPROVED
-  DECLINED
-}
+enum Role { USER LANDLORD ADMIN }
+enum BookingStatus { PENDING APPROVED DECLINED }
 
 model User {
-  id         String     @id @default(cuid())
-  name       String
-  email      String     @unique
-  password   String
-  role       Role       @default(USER)
-  properties Property[]
-  bookings   Booking[]
-  reviews    Review[]
-  favorites  Favorite[]
-  createdAt  DateTime   @default(now())
+  id              String           @id @default(cuid())
+  name            String
+  email           String           @unique
+  password        String
+  role            Role             @default(USER)
+  properties      Property[]
+  bookings        Booking[]
+  reviews         Review[]
+  favorites       Favorite[]
+  roommateProfile RoommateProfile?
+  sentMessages    Message[]        @relation("SentMessages")
+  receivedMessages Message[]       @relation("ReceivedMessages")
+  createdAt       DateTime         @default(now())
 }
 
 model Property {
@@ -50,32 +44,54 @@ model Property {
 }
 
 model Favorite {
-  id         String   @id @default(cuid())
-  userId     String
+  id String @id @default(cuid())
+  userId String
   propertyId String
-  user       User     @relation(fields: [userId], references: [id])
-  property   Property @relation(fields: [propertyId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
   @@unique([userId, propertyId])
 }
 
 model Booking {
-  id         String        @id @default(cuid())
-  userId     String
+  id String @id @default(cuid())
+  userId String
   propertyId String
-  message    String?
-  status     BookingStatus @default(PENDING)
-  user       User          @relation(fields: [userId], references: [id])
-  property   Property      @relation(fields: [propertyId], references: [id])
-  createdAt  DateTime      @default(now())
+  message String?
+  status BookingStatus @default(PENDING)
+  user User @relation(fields: [userId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Review {
-  id         String   @id @default(cuid())
-  rating     Int
-  comment    String?
-  userId     String
+  id String @id @default(cuid())
+  rating Int
+  comment String?
+  userId String
   propertyId String
-  user       User     @relation(fields: [userId], references: [id])
-  property   Property @relation(fields: [propertyId], references: [id])
-  createdAt  DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
+  property Property @relation(fields: [propertyId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model RoommateProfile {
+  id String @id @default(cuid())
+  userId String @unique
+  bio String
+  location String
+  budget Int
+  moveIn String?
+  lifestyle String?
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Message {
+  id String @id @default(cuid())
+  text String
+  senderId String
+  receiverId String
+  sender User @relation("SentMessages", fields: [senderId], references: [id])
+  receiver User @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  createdAt DateTime @default(now())
 }
