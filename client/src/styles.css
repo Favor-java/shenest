@@ -1,99 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
-
-:root {
-  font-family: 'DM Sans', sans-serif;
-  color: #392d33;
-  background: #fffafa;
-  --pink: #d98a9e;
-  --pink-dark: #b8677c;
-  --blush: #f8e8eb;
-  --cream: #fff8f5;
-  --green: #637c6c;
-  --border: #eadadd;
-  --muted: #786c71;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: #fffafa; }
-a { color: inherit; text-decoration: none; }
-button, input, select { font: inherit; }
-.navbar { height: 76px; padding: 0 6vw; display: flex; align-items: center; gap: 40px; border-bottom: 1px solid var(--border); background: rgba(255,250,250,.96); position: sticky; top: 0; z-index: 10; }
-.brand { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 600; display: flex; align-items: center; gap: 9px; }
-.brand-mark { width: 35px; height: 35px; border-radius: 50% 50% 45% 55%; display: inline-grid; place-items: center; background: var(--pink); color: white; font-family: 'DM Sans'; font-size: 17px; }
-.nav-links { display: flex; gap: 28px; margin: auto; font-size: 14px; }
-.nav-actions { display: flex; align-items: center; gap: 15px; }
-.button { display: inline-flex; justify-content: center; align-items: center; border: 0; border-radius: 12px; background: var(--pink); color: white; padding: 13px 20px; font-weight: 700; cursor: pointer; }
-.button:hover { background: var(--pink-dark); }
-.button.small { padding: 10px 17px; }
-.text-button { font-weight: 600; }
-.hero { min-height: 590px; display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; padding: 65px 6vw; background: linear-gradient(110deg, #fff8f6 0%, #fbedef 100%); }
-.hero-copy { max-width: 650px; }
-.hero h1, .page-heading h1 { font-family: 'Playfair Display', serif; font-size: clamp(45px, 5vw, 72px); line-height: 1.02; margin: 0 0 22px; font-weight: 600; }
-.hero h1 em { color: var(--pink-dark); }
-.hero-copy > p { font-size: 18px; color: var(--muted); max-width: 560px; line-height: 1.7; }
-.search-box { margin-top: 32px; display: flex; align-items: center; gap: 12px; background: white; padding: 9px 9px 9px 17px; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 15px 35px rgba(88,54,65,.08); }
-.search-box input { flex: 1; border: 0; outline: 0; min-width: 0; }
-.trust-row { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 26px; font-size: 13px; color: var(--green); }
-.trust-row span { display: flex; align-items: center; gap: 6px; }
-.hero-image { min-height: 470px; border-radius: 160px 28px 28px 28px; background: url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85') center/cover; position: relative; box-shadow: 0 22px 50px rgba(76,51,59,.14); }
-.hero-note { position: absolute; left: -28px; bottom: 32px; background: white; padding: 15px 19px; border-radius: 14px; box-shadow: 0 12px 30px rgba(76,51,59,.14); display: grid; gap: 3px; }
-.hero-note span { color: var(--green); font-size: 12px; }
-.section { padding: 80px 6vw; max-width: 1440px; margin: auto; }
-.section-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 30px; }
-.section-heading h2, .roommate-banner h2 { font-family: 'Playfair Display', serif; font-size: 35px; margin: 4px 0; }
-.eyebrow { color: var(--pink-dark); font-size: 12px; text-transform: uppercase; letter-spacing: .15em; font-weight: 700; }
-.property-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-.property-card { overflow: hidden; background: white; border: 1px solid var(--border); border-radius: 20px; transition: transform .2s ease; }
-.property-card:hover { transform: translateY(-4px); }
-.property-image-wrap { height: 235px; position: relative; }
-.property-image { width: 100%; height: 100%; object-fit: cover; }
-.heart-button { position: absolute; right: 14px; top: 14px; width: 38px; height: 38px; border-radius: 50%; border: 0; background: white; display: grid; place-items: center; cursor: pointer; }
-.property-content { padding: 18px; }
-.property-title-row { display: flex; align-items: center; justify-content: space-between; color: var(--green); }
-.property-title-row h3 { color: #392d33; margin: 0; font-size: 17px; }
-.location { display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: 13px; }
-.property-type { font-size: 12px; color: var(--pink-dark); }
-.property-footer { display: flex; justify-content: space-between; align-items: end; margin-top: 18px; }
-.property-footer strong { font-size: 18px; }
-.property-footer strong span { font-size: 11px; color: var(--muted); font-weight: 400; }
-.property-footer a { color: var(--pink-dark); font-size: 13px; font-weight: 700; }
-.roommate-banner { margin: 10px 6vw 80px; padding: 55px 7%; background: #f3e6df; border-radius: 30px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
-.roommate-banner > div:first-child { max-width: 620px; }
-.roommate-banner p:not(.eyebrow) { color: var(--muted); line-height: 1.7; }
-.roommate-circles { display: flex; }
-.roommate-circles span { width: 90px; height: 90px; border: 6px solid #f3e6df; border-radius: 50%; background: var(--pink); color: white; display: grid; place-items: center; margin-left: -20px; font-weight: 700; }
-.page { min-height: calc(100vh - 76px); }
-.page-heading { max-width: 650px; }
-.page-heading h1 { font-size: 48px; }
-.page-heading > p:last-child { color: var(--muted); }
-.filter-bar { display: flex; gap: 12px; margin: 35px 0 18px; }
-.filter-bar input, .filter-bar select { border: 1px solid var(--border); background: white; border-radius: 12px; padding: 13px 15px; }
-.filter-bar input { width: min(460px, 100%); }
-.results-count { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
-.empty-page, .auth-page { min-height: calc(100vh - 76px); display: grid; place-items: center; padding: 40px 20px; background: var(--cream); text-align: center; }
-.empty-page > div { max-width: 540px; }
-.empty-page h1, .auth-card h1 { font-family: 'Playfair Display', serif; font-size: 40px; }
-.empty-page p { color: var(--muted); margin-bottom: 25px; }
-.auth-card { width: min(430px, 100%); text-align: left; padding: 35px; background: white; border: 1px solid var(--border); border-radius: 22px; box-shadow: 0 20px 50px rgba(88,54,65,.08); }
-.auth-brand { justify-content: center; }
-.auth-card h1 { text-align: center; margin-bottom: 8px; }
-.auth-card > p { text-align: center; color: var(--muted); }
-.auth-card label { display: grid; gap: 7px; font-size: 13px; font-weight: 600; margin-top: 18px; }
-.auth-card input { padding: 13px; border: 1px solid var(--border); border-radius: 10px; outline: 0; }
-.full { width: 100%; margin-top: 22px; }
-.auth-footer { font-size: 13px; }
-.auth-footer a { color: var(--pink-dark); font-weight: 700; }
-@media (max-width: 850px) {
-  .navbar { padding: 0 4vw; } .nav-links { display: none; }
-  .hero { grid-template-columns: 1fr; padding: 50px 5vw; }
-  .hero-image { min-height: 350px; border-radius: 90px 22px 22px 22px; }
-  .hero-note { left: 15px; }
-  .property-grid { grid-template-columns: 1fr 1fr; }
-  .roommate-banner { flex-direction: column; align-items: flex-start; }
-}
-@media (max-width: 560px) {
-  .navbar { height: 68px; } .brand { font-size: 20px; } .nav-actions .text-button { display: none; }
-  .hero h1 { font-size: 45px; } .search-box { flex-wrap: wrap; } .search-box .button { width: 100%; }
-  .property-grid { grid-template-columns: 1fr; } .section { padding: 55px 5vw; }
-  .section-heading { align-items: flex-start; gap: 12px; flex-direction: column; }
-  .filter-bar { flex-direction: column; } .filter-bar input, .filter-bar select { width: 100%; }
-}
+:root { font-family:'DM Sans',sans-serif; color:#392d33; background:#fffafa; --pink:#d98a9e; --pink-dark:#b8677c; --blush:#f8e8eb; --cream:#fff8f5; --green:#637c6c; --border:#eadadd; --muted:#786c71; }
+*{box-sizing:border-box} body{margin:0;background:#fffafa} a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit} button:disabled{opacity:.6;cursor:not-allowed}
+.navbar{height:76px;padding:0 6vw;display:flex;align-items:center;gap:32px;border-bottom:1px solid var(--border);background:rgba(255,250,250,.96);position:sticky;top:0;z-index:10}.brand{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;display:flex;align-items:center;gap:9px}.brand-mark{width:35px;height:35px;border-radius:50% 50% 45% 55%;display:inline-grid;place-items:center;background:var(--pink);color:white;font-family:'DM Sans';font-size:17px}.nav-links{display:flex;gap:24px;margin:auto;font-size:13px}.nav-actions{display:flex;align-items:center;gap:15px}.nav-plain-button{border:0;background:none;cursor:pointer;color:inherit}.button{display:inline-flex;justify-content:center;align-items:center;border:0;border-radius:12px;background:var(--pink);color:white;padding:13px 20px;font-weight:700;cursor:pointer}.button:hover{background:var(--pink-dark)}.button.small{padding:10px 17px}.text-button{font-weight:600}
+.hero{min-height:590px;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:65px 6vw;background:linear-gradient(110deg,#fff8f6 0%,#fbedef 100%)}.hero-copy{max-width:650px}.hero h1,.page-heading h1{font-family:'Playfair Display',serif;font-size:clamp(45px,5vw,72px);line-height:1.02;margin:0 0 22px;font-weight:600}.hero h1 em{color:var(--pink-dark)}.hero-copy>p{font-size:18px;color:var(--muted);max-width:560px;line-height:1.7}.search-box{margin-top:32px;display:flex;align-items:center;gap:12px;background:white;padding:9px 9px 9px 17px;border:1px solid var(--border);border-radius:16px;box-shadow:0 15px 35px rgba(88,54,65,.08)}.search-box input{flex:1;border:0;outline:0;min-width:0}.trust-row{display:flex;flex-wrap:wrap;gap:22px;margin-top:26px;font-size:13px;color:var(--green)}.trust-row span{display:flex;align-items:center;gap:6px}.hero-image{min-height:470px;border-radius:160px 28px 28px 28px;background:url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85') center/cover;position:relative;box-shadow:0 22px 50px rgba(76,51,59,.14)}.hero-note{position:absolute;left:-28px;bottom:32px;background:white;padding:15px 19px;border-radius:14px;box-shadow:0 12px 30px rgba(76,51,59,.14);display:grid;gap:3px}.hero-note span{color:var(--green);font-size:12px}
+.section{padding:80px 6vw;max-width:1440px;margin:auto}.section-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:30px}.section-heading h2,.roommate-banner h2{font-family:'Playfair Display',serif;font-size:35px;margin:4px 0}.eyebrow{color:var(--pink-dark);font-size:12px;text-transform:uppercase;letter-spacing:.15em;font-weight:700}.property-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.property-card{overflow:hidden;background:white;border:1px solid var(--border);border-radius:20px;transition:transform .2s ease}.property-card:hover{transform:translateY(-4px)}.property-image-wrap{height:235px;position:relative}.property-image{width:100%;height:100%;object-fit:cover}.heart-button{position:absolute;right:14px;top:14px;width:38px;height:38px;border-radius:50%;border:0;background:white;display:grid;place-items:center;cursor:pointer}.property-content{padding:18px}.property-title-row{display:flex;align-items:center;justify-content:space-between;color:var(--green)}.property-title-row h3{color:#392d33;margin:0;font-size:17px}.location{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:13px}.property-type{font-size:12px;color:var(--pink-dark)}.property-footer{display:flex;justify-content:space-between;align-items:end;margin-top:18px}.property-footer strong{font-size:18px}.property-footer strong span{font-size:11px;color:var(--muted);font-weight:400}.property-footer a{color:var(--pink-dark);font-size:13px;font-weight:700}
+.roommate-banner{margin:10px 6vw 80px;padding:55px 7%;background:#f3e6df;border-radius:30px;display:flex;align-items:center;justify-content:space-between;gap:40px}.roommate-banner>div:first-child{max-width:620px}.roommate-banner p:not(.eyebrow){color:var(--muted);line-height:1.7}.roommate-circles{display:flex}.roommate-circles span{width:90px;height:90px;border:6px solid #f3e6df;border-radius:50%;background:var(--pink);color:white;display:grid;place-items:center;margin-left:-20px;font-weight:700}
+.page{min-height:calc(100vh - 76px)}.page-heading{max-width:650px}.page-heading h1{font-size:48px}.page-heading>p:last-child,.form-heading p{color:var(--muted)}.filter-bar{display:flex;gap:12px;margin:35px 0 18px}.filter-bar input,.filter-bar select,.listing-form input,.listing-form select,.listing-form textarea,.booking-card textarea{border:1px solid var(--border);background:white;border-radius:12px;padding:13px 15px;outline:0}.filter-bar input{width:min(460px,100%)}.results-count{color:var(--muted);font-size:13px;margin-bottom:22px}
+.empty-page,.auth-page{min-height:calc(100vh - 76px);display:grid;place-items:center;padding:40px 20px;background:var(--cream);text-align:center}.empty-page>div{max-width:540px}.empty-page h1,.auth-card h1{font-family:'Playfair Display',serif;font-size:40px}.empty-page p{color:var(--muted);margin-bottom:25px}.auth-card{width:min(430px,100%);text-align:left;padding:35px;background:white;border:1px solid var(--border);border-radius:22px;box-shadow:0 20px 50px rgba(88,54,65,.08)}.auth-brand{justify-content:center}.auth-card h1{text-align:center;margin-bottom:8px}.auth-card>p{text-align:center;color:var(--muted)}.auth-card label,.listing-form label,.booking-card label{display:grid;gap:7px;font-size:13px;font-weight:600;margin-top:18px}.auth-card input{padding:13px;border:1px solid var(--border);border-radius:10px;outline:0}.full{width:100%;margin-top:22px}.auth-footer{font-size:13px}.auth-footer a{color:var(--pink-dark);font-weight:700}.form-message{color:var(--pink-dark)!important;font-size:13px!important;text-align:left!important;margin:14px 0!important}
+.back-link{display:inline-block;margin-bottom:28px;color:var(--pink-dark);font-weight:700;font-size:13px}.details-layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:42px;align-items:start}.details-image{width:100%;height:500px;object-fit:cover;border-radius:26px}.details-copy{padding:25px 5px}.details-title-row{display:flex;justify-content:space-between;gap:20px}.details-title-row h1,.form-heading h1{font-family:'Playfair Display',serif;font-size:42px;margin:0 0 8px}.details-title-row p{display:flex;align-items:center;gap:5px;color:var(--muted)}.verified{height:max-content;display:flex;gap:6px;align-items:center;background:#edf3ee;color:var(--green);padding:8px 11px;border-radius:10px;font-size:12px;font-weight:700}.details-description{line-height:1.8;color:var(--muted)}.details-meta{display:flex;justify-content:space-between;align-items:center;margin-top:25px;padding-top:20px;border-top:1px solid var(--border)}.details-meta span{color:var(--pink-dark);font-size:13px}.booking-card{position:sticky;top:100px;background:white;border:1px solid var(--border);border-radius:22px;padding:25px;box-shadow:0 18px 40px rgba(88,54,65,.07)}.booking-card h2{font-family:'Playfair Display',serif;font-size:27px;margin-top:0}.booking-card>p{color:var(--muted);line-height:1.6;font-size:14px}.outline-button{display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--pink);background:white;color:var(--pink-dark);border-radius:12px;padding:12px;font-weight:700;cursor:pointer}.booking-card textarea{resize:vertical;width:100%}
+.form-heading{max-width:620px}.form-heading h1{font-size:48px}.listing-form{max-width:760px;margin-top:35px;padding:30px;background:white;border:1px solid var(--border);border-radius:22px}.listing-form input,.listing-form select,.listing-form textarea{width:100%}.listing-form textarea{resize:vertical}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}.empty-inline{padding:55px 0;color:var(--muted)}.favorites-grid{margin-top:35px}
+@media(max-width:950px){.nav-links{display:none}.details-layout{grid-template-columns:1fr}.booking-card{position:static}.details-image{height:400px}}
+@media(max-width:850px){.navbar{padding:0 4vw}.hero{grid-template-columns:1fr;padding:50px 5vw}.hero-image{min-height:350px;border-radius:90px 22px 22px 22px}.hero-note{left:15px}.property-grid{grid-template-columns:1fr 1fr}.roommate-banner{flex-direction:column;align-items:flex-start}}
+@media(max-width:560px){.navbar{height:68px}.brand{font-size:20px}.nav-actions .text-button{font-size:13px}.hero h1{font-size:45px}.search-box{flex-wrap:wrap}.search-box .button{width:100%}.property-grid{grid-template-columns:1fr}.section{padding:55px 5vw}.section-heading{align-items:flex-start;gap:12px;flex-direction:column}.filter-bar,.form-row{grid-template-columns:1fr;flex-direction:column}.filter-bar input,.filter-bar select{width:100%}.details-image{height:290px}.details-title-row{flex-direction:column}.details-title-row h1,.form-heading h1{font-size:36px}.listing-form{padding:20px}}
