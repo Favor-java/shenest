@@ -5,8 +5,7 @@ import { auth } from '../middleware/auth.js';
 export const socialRouter = express.Router();
 
 socialRouter.get('/favorites', auth, (req, res) => {
-  const rows = db.prepare('SELECT p.* FROM favorites f JOIN properties p ON p.id = f.property_id WHERE f.user_id = ? ORDER BY p.id DESC').all(req.user.userId);
-  res.json(rows);
+  res.json(db.prepare('SELECT p.* FROM favorites f JOIN properties p ON p.id = f.property_id WHERE f.user_id = ? ORDER BY p.id DESC').all(req.user.userId));
 });
 
 socialRouter.post('/favorites/:propertyId', auth, (req, res) => {
@@ -18,8 +17,28 @@ socialRouter.post('/favorites/:propertyId', auth, (req, res) => {
 
 socialRouter.post('/bookings', auth, (req, res) => {
   const { propertyId, message } = req.body;
+  const property = db.prepare('SELECT id, owner_id FROM properties WHERE id = ?').get(propertyId);
+  if (!property) return res.status(404).json({ message: 'Property not found.' });
+  if (property.owner_id === req.user.userId) return res.status(400).json({ message: 'You cannot book your own property.' });
   const result = db.prepare('INSERT INTO bookings (user_id, property_id, message) VALUES (?, ?, ?)').run(req.user.userId, propertyId, message || null);
   res.status(201).json(db.prepare('SELECT * FROM bookings WHERE id = ?').get(result.lastInsertRowid));
+});
+
+socialRouter.get('/bookings/mine', auth, (req, res) => {
+  res.json(db.prepare(`SELECT b.*, p.title property_title, p.location FROM bookings b JOIN properties p ON p.id=b.property_id WHERE b.user_id=? ORDER BY b.id DESC`).all(req.user.userId));
+});
+
+socialRouter.get('/bookings/landlord', auth, (req, res) => {
+  res.json(db.prepare(`SELECT b.*, p.title property_title, p.location, u.name renter_name, u.email renter_email FROM bookings b JOIN properties p ON p.id=b.property_id JOIN users u ON u.id=b.user_id WHERE p.owner_id=? ORDER BY b.id DESC`).all(req.user.userId));
+});
+
+socialRouter.patch('/bookings/:id/status', auth, (req, res) => {
+  const status = String(req.body.status || '').toUpperCase();
+  if (!['APPROVED', 'DECLINED'].includes(status)) return res.status(400).json({ message: 'Status must be APPROVED or DECLINED.' });
+  const booking = db.prepare(`SELECT b.id FROM bookings b JOIN properties p ON p.id=b.property_id WHERE b.id=? AND p.owner_id=?`).get(req.params.id, req.user.userId);
+  if (!booking) return res.status(404).json({ message: 'Booking request not found.' });
+  db.prepare('UPDATE bookings SET status=? WHERE id=?').run(status, req.params.id);
+  res.json(db.prepare('SELECT * FROM bookings WHERE id=?').get(req.params.id));
 });
 
 socialRouter.get('/reviews/:propertyId', (req, res) => {
@@ -54,6 +73,7 @@ socialRouter.get('/messages/:userId', auth, (req, res) => {
 socialRouter.post('/messages/:userId', auth, (req, res) => {
   const text = req.body.text?.trim();
   if (!text) return res.status(400).json({ message: 'Message cannot be empty.' });
+  if (Number(req.params.userId) === Number(req.user.userId)) return res.status(400).json({ message: 'You cannot message yourself.' });
   const result = db.prepare('INSERT INTO messages (sender_id, receiver_id, text) VALUES (?, ?, ?)').run(req.user.userId, req.params.userId, text);
   res.status(201).json(db.prepare('SELECT * FROM messages WHERE id = ?').get(result.lastInsertRowid));
 });
