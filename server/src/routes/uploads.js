@@ -26,7 +26,10 @@ const upload = multer({
   },
 });
 
-uploadsRouter.post('/property-image', auth, upload.single('image'), (req, res) => {
+uploadsRouter.post('/property-image', auth, (req, res, next) => {
+  if (req.user.role !== 'LANDLORD') return res.status(403).json({ message: 'Only landlord accounts can upload property images.' });
+  next();
+}, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'Please choose an image.' });
   const url = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
   res.status(201).json({ url });
