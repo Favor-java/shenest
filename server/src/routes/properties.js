@@ -10,8 +10,7 @@ propertiesRouter.get('/', (req, res) => {
   const sql = type
     ? 'SELECT * FROM properties WHERE (title LIKE ? OR location LIKE ?) AND type = ? ORDER BY id DESC'
     : 'SELECT * FROM properties WHERE title LIKE ? OR location LIKE ? ORDER BY id DESC';
-  const properties = type ? db.prepare(sql).all(search, search, type) : db.prepare(sql).all(search, search);
-  res.json(properties);
+  res.json(type ? db.prepare(sql).all(search, search, type) : db.prepare(sql).all(search, search));
 });
 
 propertiesRouter.get('/mine', auth, (req, res) => {
@@ -29,6 +28,7 @@ propertiesRouter.get('/:id', (req, res) => {
 });
 
 propertiesRouter.post('/', auth, (req, res) => {
+  if (req.user.role !== 'LANDLORD') return res.status(403).json({ message: 'Only landlord accounts can create property listings.' });
   const { title, description, location, price, type, image } = req.body;
   if (!title || !description || !location || !price || !type) return res.status(400).json({ message: 'Please complete all required fields.' });
   const result = db.prepare('INSERT INTO properties (title, description, location, price, type, image, owner_id) VALUES (?, ?, ?, ?, ?, ?, ?)').run(title, description, location, Number(price), type, image || null, req.user.userId);
