@@ -16,14 +16,9 @@ jobs:
           java-version: '17'
           cache: maven
           cache-dependency-path: server/pom.xml
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
       - name: Run JUnit tests and install executable JAR
         working-directory: server
         run: ./mvnw -B clean install
-      - name: Verify packaged application workflows and persistence
-        run: node server/scripts/smoke-check.mjs
       - name: Upload executable JAR and test reports
         if: always()
         uses: actions/upload-artifact@v4

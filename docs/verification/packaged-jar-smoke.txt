@@ -1,5 +1,0 @@
-Backend ready (demo seed).
-Backend ready (demo seed).
-Backend ready (existing database).
-Existing SQLite data and legacy bcrypt login verified on a copy.
-Passed 139 API/HTML smoke checks, browser sessions/CSRF, persistence and repeatable seeding.
