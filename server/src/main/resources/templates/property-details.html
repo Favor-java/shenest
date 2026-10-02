@@ -8,7 +8,6 @@
     <main id="main-content" tabindex="-1"
       th:fragment="content"
       class="details-page section"
-      th:attr="data-property-id=${property.id}"
     >
       <a class="back-link" href="/properties">← Back to homes</a>
       <p th:unless="${isOwner}"><a th:href="${loggedIn ? '/report?type=PROPERTY&amp;id=' + property.id : '/login'}">Report this listing</a></p>
@@ -16,22 +15,21 @@
         <div>
           <img
             class="details-image"
-            data-gallery-main
             th:src="${property.image ?: '/images/hero-home.png'}"
             th:alt="${property.title}"
           />
           <div th:if="${gallery.size() > 1}" class="property-gallery" aria-label="Property photos">
-            <button
-              type="button"
+            <a
+              th:href="${image}" target="_blank" rel="noopener"
               th:each="image, position:${gallery}"
               th:class="${position.first ? 'gallery-thumbnail selected' : 'gallery-thumbnail'}"
-              th:attr="data-gallery-src=${image},aria-pressed=${position.first},aria-label=${'View photo ' + (position.index + 1)}"
+              th:attr="aria-label=${'Open photo ' + (position.index + 1)}"
             >
               <img
                 th:src="${image}"
                 th:alt="${property.title + ' — photo ' + (position.index + 1)}"
               />
-            </button>
+            </a>
           </div>
           <div class="details-copy">
             <div class="details-title-row">
@@ -176,7 +174,9 @@
               class="empty-note"
               th:text="${#numbers.formatDecimal(averageRating,1,1) + ' / 5 from ' + reviews.size() + ' review(s)'}"
             ></p>
-            <form class="review-form" th:attr="data-review=${property.id}">
+            <form class="review-form" action="/ui/forms/review" method="post">
+              <input type="hidden" name="_csrf" th:value="${csrf}" />
+              <input type="hidden" name="propertyId" th:value="${property.id}" />
               <select name="rating">
                 <option
                   th:each="rating:${ {5,4,3,2,1} }"
@@ -189,7 +189,7 @@
                 Post
               </button>
             </form>
-            <div class="review-list" data-review-list>
+            <div class="review-list">
               <p th:if="${reviews.isEmpty()}">No reviews yet.</p>
               <article th:each="item:${reviews}">
                 <span
@@ -205,12 +205,20 @@
           <h2>Interested in this home?</h2>
           <p>Save it, contact the landlord, or send a booking request.</p>
           <th:block th:unless="${isOwner}">
-            <button class="outline-button full" th:attr="data-details-favorite=${property.id}">
-              <svg th:replace="~{fragments/icons :: heart(17,false)}"></svg>Save favorite</button
-            ><a class="outline-button full" th:href="@{/messages/{id}(id=${property.owner_id})}"
+            <form action="/ui/forms/favorite" method="post">
+              <input type="hidden" name="_csrf" th:value="${csrf}" />
+              <input type="hidden" name="propertyId" th:value="${property.id}" />
+              <input type="hidden" name="returnTo" th:value="@{/properties/{id}(id=${property.id})}" />
+              <button class="outline-button full" type="submit">
+                <svg th:replace="~{fragments/icons :: heart(17,false)}"></svg>Toggle favorite
+              </button>
+            </form>
+            <a class="outline-button full" th:href="@{/messages/{id}(id=${property.owner_id})}"
               ><svg th:replace="~{fragments/icons :: message-circle(17)}"></svg>Message landlord</a
             >
-            <form th:attr="data-booking=${property.id}">
+            <form action="/ui/forms/book" method="post">
+              <input type="hidden" name="_csrf" th:value="${csrf}" />
+              <input type="hidden" name="propertyId" th:value="${property.id}" />
               <label>
                 Booking message<textarea
                   name="message"

@@ -63,7 +63,12 @@
           <ul class="safety-list" th:unless="${blocks.isEmpty()}">
             <li th:each="member:${blocks}">
               <span th:text="${member.name}"></span>
-              <button class="outline-button small" type="button" th:attr="data-block-user=${member.id},data-blocked=true,aria-label=${'Unblock ' + member.name}">Unblock</button>
+              <form class="inline-form" action="/ui/forms/unblock" method="post">
+                <input type="hidden" name="_csrf" th:value="${csrf}" />
+                <input type="hidden" name="userId" th:value="${member.id}" />
+                <input type="hidden" name="returnTo" value="/account#blocked-members" />
+                <button class="outline-button small" type="submit" th:attr="aria-label=${'Unblock ' + member.name}">Unblock</button>
+              </form>
             </li>
           </ul>
         </section>

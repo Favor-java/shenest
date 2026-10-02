@@ -10,7 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ControllerArchitectureTest {
     @ParameterizedTest
     @ValueSource(classes = {AuthController.class, PropertyController.class, SocialController.class,
-            SafetyController.class, UploadController.class, UiAuthController.class, PageController.class})
+            SafetyController.class, UploadController.class, UiAuthController.class, PageController.class,
+            FormController.class})
     void controllersDependOnlyOnSpringServices(Class<?> controller) {
         assertThat(controller.getDeclaredFields()).isNotEmpty();
         for (var field : controller.getDeclaredFields()) {

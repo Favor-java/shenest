@@ -12,13 +12,13 @@
         <h1>Homes that fit your life.</h1>
         <p>Browse rooms, studios and apartments from SheNest landlords.</p>
       </div>
-      <div class="filter-bar">
+      <form class="filter-bar" action="/properties" method="get">
         <input
-          data-search="properties"
+          aria-label="Search homes"
           name="search"
           th:value="${search}"
           placeholder="Search by area or property name"
-        /><select data-property-type name="type">
+        /><select name="type" aria-label="Property type">
           <option value="">All types</option>
           <option
             th:each="option:${ {'Studio','Apartment','Shared apartment'} }"
@@ -26,10 +26,10 @@
             th:text="${option}"
           ></option>
         </select>
-      </div>
-      <!-- PageController provides properties. The each attribute repeats a card for each home.
-       app.js uses data-property-results to update this section after a search. -->
-      <div data-property-results>
+        <button class="button" type="submit">Search</button>
+      </form>
+      <!-- Java supplies the filtered properties for this page. -->
+      <div>
         <p class="results-count" th:text="${properties.size() + ' homes found'}"></p>
         <div th:if="${properties.isEmpty()}" class="empty-inline">
           <p>No homes match your search.</p>

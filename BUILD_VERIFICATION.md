@@ -17,6 +17,7 @@ Spring services:
 | SafetyController | SafetyService |
 | UploadController | UploadService |
 | PageController | PageService |
+| FormController | FormService |
 
 Controllers bind requests and return responses. Services validate inputs,
 enforce permissions and perform operations through the `Database` repository.
@@ -26,16 +27,16 @@ details leave neither a listing nor a details row behind.
 
 ## 2. Maven packaging and installation
 
-From `server/`, the commands executed were:
+From `server/`, the build commands were:
 
 ```bash
-./mvnw -Dmaven.repo.local=/tmp/shenest-m2 -o -B package
-./mvnw -Dmaven.repo.local=/tmp/shenest-m2 -B clean install
+./mvnw -B clean package
+./mvnw -B clean install
 ```
 
-The temporary Maven repository keeps dependency/cache writes separate from the
-project. `-o` used the downloaded dependencies for the package run. Normal
-commands are `./mvnw package` and `./mvnw clean install`, or `mvn package` and
+Verification used an isolated checkout and a separate local Maven cache
+(`-Dmaven.repo.local=... -o`) so a running application was not rebuilt in place.
+The standard commands above run the same lifecycle, or use `mvn package` and
 `mvn clean install` when Maven is installed.
 
 Both commands completed with **BUILD SUCCESS** and produced:
@@ -57,9 +58,9 @@ build.
 JUnit ran during **both** builds:
 
 ```text
-ApplicationIntegrationTest: Tests run: 30, Failures: 0, Errors: 0, Skipped: 0
-ControllerArchitectureTest: Tests run: 7, Failures: 0, Errors: 0, Skipped: 0
-Tests run: 37, Failures: 0, Errors: 0, Skipped: 0
+ApplicationIntegrationTest: Tests run: 38, Failures: 0, Errors: 0, Skipped: 0
+ControllerArchitectureTest: Tests run: 8, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 46, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
 ```
 
@@ -67,7 +68,10 @@ Integration tests exercise the real controllers, services, templates and SQLite
 with temporary data. Coverage includes authentication/password hashing, roles,
 ownership, rollback, favorites, bookings, reviews, roommate updates, messaging
 privacy, reports, blocks, session rotation, CSRF and uploads. Architecture tests
-require controller dependencies to be Spring services.
+require controller dependencies to be Spring services. HTML form tests cover
+login/register/logout, CSRF, uploads and listing edits, favorites, bookings,
+reviews, roommate profiles, messages, blocking, reporting and admin decisions.
+Rendered pages contain no script tags, and POST forms include hidden CSRF tokens.
 
 Run the suite separately with `cd server && ./mvnw test`. Surefire reports are
 generated under `server/target/surefire-reports/`. Tests use Mockito's subclass

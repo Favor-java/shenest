@@ -16,13 +16,16 @@
       </div>
       <div class="roommate-layout">
         <section>
+          <form action="/roommates" method="get" class="roommate-filters">
           <input
             class="roommate-search"
-            data-search="roommates"
+            name="location" aria-label="Roommate location"
             th:value="${location}"
             placeholder="Filter by location"
           />
-          <div class="roommate-list" data-roommate-results>
+          <button class="button" type="submit">Filter</button>
+          </form>
+          <div class="roommate-list">
             <article class="roommate-card" th:each="profile:${profiles}">
               <img
                 th:if="${profile.portrait != null}"
@@ -72,7 +75,8 @@
         </section>
         <aside class="profile-form">
           <h2>Create your profile</h2>
-          <form data-roommate-profile>
+          <form action="/ui/forms/roommate" method="post">
+            <input type="hidden" name="_csrf" th:value="${csrf}" />
             <label>About you<textarea name="bio" rows="4" required></textarea></label>
             <label>Preferred location<input name="location" required /></label>
             <label>Budget (₦)<input name="budget" type="number" required /></label>

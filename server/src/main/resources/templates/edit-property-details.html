@@ -12,7 +12,9 @@
         <h1>Update property details</h1>
         <p th:text="${property.title}"></p>
       </div>
-      <form class="listing-form" th:attr="data-property-details=${property.id}">
+      <form class="listing-form" action="/ui/forms/edit-property" method="post">
+        <input type="hidden" name="_csrf" th:value="${csrf}" />
+        <input type="hidden" name="propertyId" th:value="${property.id}" />
         <div th:replace="~{fragments/property-fields :: fields(${details})}"></div>
         <button class="button">Save property details</button>
       </form>

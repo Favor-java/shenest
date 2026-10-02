@@ -22,7 +22,7 @@
           <a class="button" href="/properties">Browse homes</a>
         </div>
         <div th:unless="${properties.isEmpty()}" class="property-grid favorites-grid">
-          <th:block th:each="property:${properties}" th:with="savedOverride=false">
+          <th:block th:each="property:${properties}">
             <article th:replace="~{fragments/property-card :: card(${property})}"></article>
           </th:block>
         </div>

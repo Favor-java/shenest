@@ -73,6 +73,9 @@ public class BrowserSession implements HandlerInterceptor {
 
         String expectedToken = getCsrfToken(request);
         String suppliedToken = request.getHeader("X-CSRF-Token");
+        if (suppliedToken == null && request.getRequestURI().startsWith("/ui/forms/")) {
+            suppliedToken = request.getParameter("_csrf");
+        }
         if (suppliedToken == null) {
             throw new ApiException(403, "Please reload the page and try again.");
         }

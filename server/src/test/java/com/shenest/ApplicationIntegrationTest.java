@@ -109,7 +109,14 @@ class ApplicationIntegrationTest {
     void guestPagesRenderThroughPageService(String path) throws Exception {
         String html = mvc.perform(get(path)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
         assertThat(html).contains("<title>SheNest</title>", "<main", "href=\"/privacy\"", "href=\"/terms\"")
-                .doesNotContain("th:");
+                .doesNotContain("th:", "<script", "/js/", "javascript:");
+        var forms = java.util.regex.Pattern.compile("<form\\b[\\s\\S]*?</form>").matcher(html);
+        while (forms.find()) {
+            String form = forms.group();
+            if (form.contains("method=\"post\"")) {
+                assertThat(form).contains("name=\"_csrf\"", "action=\"/ui/forms/");
+            }
+        }
     }
 
     @Test
@@ -297,5 +304,176 @@ class ApplicationIntegrationTest {
         MockMultipartFile invalid = new MockMultipartFile("image", "bad.txt", "text/plain", bytes);
         mvc.perform(multipart("/api/uploads/property-image").file(invalid).header("Authorization", "Bearer " + landlord.token()))
                 .andExpect(status().isBadRequest());
+    }
+
+    private MockHttpSession browserSession(Account account) {
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("userId", account.id());
+        session.setAttribute("csrf", java.util.UUID.randomUUID().toString());
+        return session;
+    }
+
+    private MvcResult form(String action, MockHttpSession session, Map<String, ?> fields) throws Exception {
+        var builder = post("/ui/forms/" + action).session(session)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("_csrf", (String) session.getAttribute("csrf"));
+        fields.forEach((key, value) -> builder.param(key, String.valueOf(value)));
+        return mvc.perform(builder).andExpect(status().is3xxRedirection()).andReturn();
+    }
+
+    @Test
+    void nativeLoginRegistrationAndLogoutWorkWithoutScripts() throws Exception {
+        MockHttpSession session = (MockHttpSession) mvc.perform(get("/login"))
+                .andExpect(status().isOk()).andReturn().getRequest().getSession();
+        String originalId = session.getId();
+        MvcResult login = form("login", session, Map.of("email", "renter@test.example", "password", "password123"));
+        assertThat(login.getResponse().getRedirectedUrl()).isEqualTo("/account");
+        assertThat(session.getId()).isNotEqualTo(originalId);
+        String account = mvc.perform(get("/account").session(session)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(account).contains("renter@test.example", "/ui/forms/logout").doesNotContain("<script");
+        form("logout", session, Map.of());
+        assertThat(session.isInvalid()).isTrue();
+
+        MockHttpSession registration = (MockHttpSession) mvc.perform(get("/register"))
+                .andReturn().getRequest().getSession();
+        MvcResult result = form("register", registration,
+                Map.of("name", "Native user", "email", "NATIVE@test.example", "password", "password123", "role", "USER"));
+        assertThat(result.getResponse().getRedirectedUrl()).isEqualTo("/account");
+        assertThat(registration.getAttribute("userId")).isNotNull();
+        assertThat(database.findOne("SELECT name FROM users WHERE email = ?", "native@test.example").get("name"))
+                .isEqualTo("Native user");
+    }
+
+    @Test
+    void nativeFormsRequireCsrfAndDoNotRelaxApiCsrfProtection() throws Exception {
+        MockHttpSession session = browserSession(renter);
+        mvc.perform(post("/ui/forms/favorite").session(session).param("propertyId", "1"))
+                .andExpect(status().isForbidden());
+        mvc.perform(post("/ui/forms/logout").session(session).param("_csrf", "wrong"))
+                .andExpect(status().isForbidden());
+        mvc.perform(request(HttpMethod.PUT, "/api/blocks/" + landlord.id()).session(session)
+                .param("_csrf", (String) session.getAttribute("csrf"))).andExpect(status().isForbidden());
+        assertThat(database.findAll("SELECT * FROM user_blocks")).isEmpty();
+    }
+
+    @Test
+    void nativeFavoritesToggleAndRejectExternalRedirects() throws Exception {
+        long id = createListing();
+        MockHttpSession session = browserSession(renter);
+        MvcResult saved = form("favorite", session, Map.of("propertyId", id, "returnTo", "/properties/" + id));
+        assertThat(saved.getResponse().getRedirectedUrl()).isEqualTo("/properties/" + id);
+        assertThat(database.findAll("SELECT * FROM favorites WHERE user_id = ?", renter.id())).hasSize(1);
+        String html = mvc.perform(get("/favorites").session(session)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(html).contains("heart-button saved", "/ui/forms/favorite").doesNotContain("<script");
+        MvcResult removed = form("favorite", session, Map.of("propertyId", id, "returnTo", "//evil.example"));
+        assertThat(removed.getResponse().getRedirectedUrl()).isEqualTo("/favorites");
+        assertThat(database.findAll("SELECT * FROM favorites")).isEmpty();
+    }
+
+    @Test
+    void nativeListingCreationUploadsPhotoAndSupportsOwnedDetailsEditing() throws Exception {
+        MockHttpSession session = browserSession(landlord);
+        MockMultipartFile image = new MockMultipartFile("image", "photo.png", "image/png", new byte[] {1, 2, 3});
+        var create = multipart("/ui/forms/create-property").file(image).session(session)
+                .param("_csrf", (String) session.getAttribute("csrf"));
+        listing().forEach((key, value) -> create.param(key, String.valueOf(value)));
+        MvcResult result = mvc.perform(create).andExpect(status().is3xxRedirection()).andReturn();
+        Map<String, Object> property = database.findOne("SELECT * FROM properties");
+        long id = Input.getId(property);
+        assertThat(result.getResponse().getRedirectedUrl()).isEqualTo("/properties/" + id);
+        assertThat((String) property.get("image")).contains("/uploads/").endsWith(".png");
+        form("edit-property", session, Map.of("propertyId", id, "bedrooms", 2, "amenities", "Water\nWi-Fi"));
+        assertThat(((Number) database.findOne("SELECT bedrooms FROM property_details WHERE property_id = ?", id)
+                .get("bedrooms")).intValue()).isEqualTo(2);
+        String edited = mvc.perform(get("/properties/" + id + "/edit").session(session)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(edited).contains("/ui/forms/edit-property", "name=\"_csrf\"");
+    }
+
+    @Test
+    void nativeValidationShowsMessagesAndRetainsServiceRoleAndRollbackChecks() throws Exception {
+        MvcResult denied = form("create-property", browserSession(renter), listing());
+        assertThat(denied.getFlashMap().get("noticeError")).isEqualTo(true);
+        assertThat(database.findAll("SELECT * FROM properties")).isEmpty();
+        var invalid = new java.util.LinkedHashMap<String, Object>(listing());
+        invalid.put("bedrooms", -1);
+        MvcResult failed = form("create-property", browserSession(landlord), invalid);
+        assertThat(failed.getResponse().getRedirectedUrl()).isEqualTo("/properties/new");
+        assertThat(failed.getFlashMap().get("noticeError")).isEqualTo(true);
+        assertThat(database.findAll("SELECT * FROM properties")).isEmpty();
+
+        MockHttpSession session = browserSession(renter);
+        MvcResult login = form("login", session, Map.of("email", "renter@test.example", "password", "wrong"));
+        assertThat(login.getResponse().getRedirectedUrl()).isEqualTo("/login");
+        String errorPage = mvc.perform(get("/login").session(session).flashAttrs(login.getFlashMap()))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        assertThat(errorPage).contains("Email or password is incorrect.", "page-notice error");
+    }
+
+    @Test
+    void nativeBookingsReviewsAndRoommateProfileSubmissionsPersist() throws Exception {
+        long id = createListing();
+        MockHttpSession session = browserSession(renter);
+        form("book", session, Map.of("propertyId", id, "message", "Viewing please"));
+        long booking = Input.getId(database.findOne("SELECT * FROM bookings"));
+        form("booking-status", browserSession(landlord), Map.of("bookingId", booking, "status", "APPROVED"));
+        assertThat(database.findOne("SELECT status FROM bookings WHERE id = ?", booking).get("status")).isEqualTo("APPROVED");
+        form("review", session, Map.of("propertyId", id, "rating", 5, "comment", "A lovely home"));
+        form("roommate", session, Map.of("bio", "Quiet reader", "location", "Yaba", "budget", 500000));
+        String html = mvc.perform(get("/properties/" + id).session(session)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(html).contains("A lovely home", "/ui/forms/review", "/ui/forms/book");
+        String profiles = mvc.perform(get("/roommates").param("location", "Yaba").session(session))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        assertThat(profiles).contains("Quiet reader", "action=\"/roommates\"", "/ui/forms/roommate");
+        String dashboard = mvc.perform(get("/landlord").session(browserSession(landlord)))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        assertThat(dashboard).contains("APPROVED", "Viewing please");
+    }
+
+    @Test
+    void nativeMessagingAndBlockingUpdateConversationAndEnforceContactRules() throws Exception {
+        MockHttpSession session = browserSession(renter);
+        form("message", session, Map.of("userId", landlord.id(), "text", " Hello <script> "));
+        form("block", session, Map.of("userId", landlord.id(), "returnTo", "/messages/" + landlord.id()));
+        MvcResult blocked = form("message", session, Map.of("userId", landlord.id(), "text", "Blocked"));
+        assertThat(blocked.getFlashMap().get("noticeError")).isEqualTo(true);
+        assertThat(database.findAll("SELECT * FROM messages")).hasSize(1);
+        String html = mvc.perform(get("/messages/" + landlord.id()).session(session)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(html).contains("&lt;script&gt;", "/ui/forms/unblock").doesNotContain("action=\"/ui/forms/message\"");
+        form("unblock", session, Map.of("userId", landlord.id(), "returnTo", "/messages/" + landlord.id()));
+        form("message", session, Map.of("userId", landlord.id(), "text", "Contact restored"));
+        assertThat(database.findAll("SELECT * FROM messages")).hasSize(2);
+        String restored = mvc.perform(get("/messages/" + landlord.id()).session(session)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(restored).contains("/ui/forms/message", "Contact restored").doesNotContain("<script");
+    }
+
+    @Test
+    void nativeReportsAndAdminActionsEnforcePermissionsAndRenderDecisions() throws Exception {
+        long propertyId = createListing();
+        MockHttpSession renterSession = browserSession(renter);
+        form("report", renterSession, Map.of("targetType", "PROPERTY", "targetId", propertyId,
+                "reason", "MISLEADING", "details", "Please check the listing"));
+        long report = Input.getId(database.findOne("SELECT * FROM safety_reports"));
+        String reportForm = mvc.perform(get("/report").param("type", "USER").param("id", String.valueOf(landlord.id()))
+                .session(renterSession)).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+        assertThat(reportForm).contains("/ui/forms/report", "name=\"_csrf\"");
+        assertThat(form("verify", renterSession, Map.of("propertyId", propertyId)).getFlashMap().get("noticeError"))
+                .isEqualTo(true);
+        MockHttpSession adminSession = browserSession(admin);
+        String adminPage = mvc.perform(get("/admin").session(adminSession)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(adminPage).contains("/ui/forms/verify", "/ui/forms/review-report");
+        form("verify", adminSession, Map.of("propertyId", propertyId));
+        form("review-report", adminSession, Map.of("reportId", report, "status", "REVIEWED", "note", "Checked the details"));
+        assertThat(((Number) database.findOne("SELECT verified FROM properties WHERE id = ?", propertyId)
+                .get("verified")).intValue()).isEqualTo(1);
+        String decision = mvc.perform(get("/admin").session(adminSession)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        assertThat(decision).contains("REVIEWED", "Checked the details").doesNotContain("<script");
     }
 }

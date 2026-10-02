@@ -23,7 +23,8 @@
           <h1>List a property</h1>
           <p>Add the important details and upload a clear photo of the home.</p>
         </div>
-        <form class="listing-form" data-create-property>
+        <form class="listing-form" action="/ui/forms/create-property" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="_csrf" th:value="${csrf}" />
           <label>Property title<input name="title" required /></label>
           <label>Location<input name="location" required /></label>
           <div class="form-row">
@@ -37,7 +38,7 @@
             </label>
           </div>
           <label>
-            Property image<input name="image" type="file" accept="image/*" data-image-input />
+            Property image<input name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
           </label>
           <label>Description<textarea name="description" rows="6" required></textarea></label>
           <div th:replace="~{fragments/property-fields :: fields(${details})}"></div>

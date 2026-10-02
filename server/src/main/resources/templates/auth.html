@@ -6,7 +6,8 @@
 >
   <body>
     <main id="main-content" tabindex="-1" th:fragment="content" class="auth-page">
-      <form class="auth-card" th:attr="data-auth=${register ? 'register' : 'login'}">
+      <form class="auth-card" method="post" th:action="${register ? '/ui/forms/register' : '/ui/forms/login'}">
+        <input type="hidden" name="_csrf" th:value="${csrf}" />
         <div class="brand auth-brand">
           <img class="brand-mark" src="/images/shenest-logo.png" alt="" width="35" height="35" />
           SheNest

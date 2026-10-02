@@ -4,7 +4,7 @@
     <article
       class="property-card"
       th:fragment="card(property)"
-      th:with="saved=${savedOverride == null ? property.saved : savedOverride}"
+      th:with="saved=${property.saved}"
     >
       <div class="property-image-wrap">
         <img
@@ -12,13 +12,18 @@
           th:alt="${property.title}"
           class="property-image"
         />
+        <form class="inline-form" action="/ui/forms/favorite" method="post">
+          <input type="hidden" name="_csrf" th:value="${csrf}" />
+          <input type="hidden" name="propertyId" th:value="${property.id}" />
+          <input type="hidden" name="returnTo" th:value="${currentPath}" />
         <button
           th:class="${saved ? 'heart-button saved' : 'heart-button'}"
-          type="button"
-          th:attr="data-favorite=${property.id},aria-pressed=${saved},aria-label=${saved ? 'Remove ' + property.title + ' from favorites' : 'Save ' + property.title}"
+          type="submit"
+          th:attr="aria-pressed=${saved},aria-label=${saved ? 'Remove ' + property.title + ' from favorites' : 'Save ' + property.title}"
         >
           <svg th:replace="~{fragments/icons :: heart(19, ${saved})}"></svg>
         </button>
+        </form>
       </div>
       <div class="property-content">
         <div class="property-title-row">

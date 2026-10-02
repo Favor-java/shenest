@@ -8,7 +8,8 @@
       <p>Your report is visible to platform administrators. It is not shared with the reported member.
         Reporting does not block contact. You can block a member from their conversation page.</p>
       <p>If you are in immediate danger, contact local emergency services. Reports are not an emergency service.</p>
-      <form class="safety-form" data-report>
+      <form class="safety-form" action="/ui/forms/report" method="post">
+        <input type="hidden" name="_csrf" th:value="${csrf}" />
         <input type="hidden" name="targetType" th:value="${targetType}" />
         <input type="hidden" name="targetId" th:value="${targetId}" />
         <label for="report-reason">What happened?</label>
@@ -23,7 +24,6 @@
         <label for="report-details">Tell us what happened</label>
         <p id="report-help">Include relevant dates and details. Avoid passwords, payment details, or unrelated personal information. Maximum 2,000 characters.</p>
         <textarea id="report-details" name="details" rows="6" maxlength="2000" required aria-describedby="report-help"></textarea>
-        <p class="form-message" data-notice role="status" aria-live="polite"></p>
         <button class="button" type="submit">Send report</button>
       </form>
       <p><a href="/account#your-reports">View your reports</a> · <a href="/privacy">How we handle your information</a></p>
