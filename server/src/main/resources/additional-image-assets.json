@@ -1,0 +1,46 @@
+{
+  "generator": "Built-in image_gen",
+  "purpose": "Five additional fictional demo interior views and five fictional adult roommate portraits. Not photographs of actual properties or actual users.",
+  "assets": [
+    {
+      "path": "gallery/lekki-kitchen.png",
+      "prompt": "Photorealistic interior editorial photograph of a compact fitted kitchenette in a fictional Lagos studio apartment: warm cream cupboards, light wood accents, tiled backsplash, small fridge, sink and simple cooking area, with a glimpse of blush bedding. Soft natural daylight, realistic proportions and everyday materials, warm SheNest cream/blush palette. Landscape 3:2, no people, no lettering, no logos, no watermark."
+    },
+    {
+      "path": "gallery/yaba-study.png",
+      "prompt": "Photorealistic interior editorial photograph of a quiet study corner in a fictional affordable private bedroom in Yaba, Lagos: simple wooden desk beside a bright window, comfortable modest chair, wardrobe edge, single bed with muted sage bedding visible. Warm cream walls, natural wood grain, realistic daylight and proportions. Landscape 3:2, no people, no legible lettering, no logos, no watermark."
+    },
+    {
+      "path": "gallery/ikeja-bedroom.png",
+      "prompt": "Photorealistic interior editorial photograph of a calm bedroom in a fictional one-bedroom Lagos apartment in Ikeja: double bed, ivory linens, dusty blush throw, warm wooden wardrobe and window with linen curtains. Comfortable practical young-professional accommodation, natural textures and daylight, not a luxury hotel. Landscape 3:2, no people, no text, no logos, no watermark."
+    },
+    {
+      "path": "gallery/ikoyi-bathroom.png",
+      "prompt": "Photorealistic interior editorial photograph of a tasteful ensuite bathroom in a fictional Lagos shared apartment bedroom in Ikoyi: glass shower, cream and light stone tiles, wooden vanity, basin, mirror and neatly folded towels. Realistic geometry, warm balanced daylight, modest premium quality without extravagant decor. Landscape 3:2, no people, no text, no logos, no watermark."
+    },
+    {
+      "path": "gallery/gbagada-bedroom.png",
+      "prompt": "Photorealistic interior editorial photograph of a comfortable bedroom in a fictional two-bedroom Lagos apartment in Gbagada: simple double bed with cream cotton and terracotta accent pillow, wardrobe, practical bedside table and window overlooking greenery. Warm neutral palette, realistic materials and room scale, soft daylight. Landscape 3:2, no people, no text, no logos, no watermark."
+    },
+    {
+      "path": "roommates/ada.png",
+      "prompt": "Photorealistic-natural. Asset type: fictional demo roommate profile portrait for SheNest. An entirely fictional adult Nigerian woman in her late twenties, dark brown skin, shoulder-length natural curls, wearing a simple dusty-rose blouse, relaxed friendly smile. Natural head-and-shoulders photograph at eye level, looking toward camera, face centrally framed with generous room around the head for circular avatar crops. Soft diffused daylight, warm cream apartment background softly blurred, realistic skin texture, no beauty-filter effect. Square composition. One adult only. Do not resemble a named real person or celebrity. Fully clothed everyday portrait, no text, no watermark, no logos."
+    },
+    {
+      "path": "roommates/zainab.png",
+      "prompt": "Photorealistic-natural. Asset type: fictional demo roommate profile portrait for SheNest. An entirely fictional adult Nigerian woman in her late twenties, medium brown skin, a neatly draped muted sage hijab and cream blouse, warm natural smile. Natural head-and-shoulders photograph at eye level, looking toward camera, face centrally framed with generous room around the head for circular avatar crops. Soft diffused daylight, warm cream apartment background softly blurred, realistic skin texture, no beauty-filter effect. Square composition. One adult only. Do not resemble a named real person or celebrity. Fully clothed everyday portrait, no text, no watermark, no logos."
+    },
+    {
+      "path": "roommates/temi.png",
+      "prompt": "Photorealistic-natural. Asset type: fictional demo roommate profile portrait for SheNest. An entirely fictional adult Nigerian woman in her mid twenties, deep brown skin, neatly tied back braids, wearing a simple beige blouse, confident friendly smile. Natural head-and-shoulders photograph at eye level, looking toward camera, face centrally framed with generous room around the head for circular avatar crops. Soft diffused daylight, warm cream apartment background softly blurred, realistic skin texture, no beauty-filter effect. Square composition. One adult only. Do not resemble a named real person or celebrity. Fully clothed everyday portrait, no text, no watermark, no logos."
+    },
+    {
+      "path": "roommates/chioma.png",
+      "prompt": "Photorealistic-natural. Asset type: fictional demo roommate profile portrait for SheNest. An entirely fictional adult Nigerian woman in her late twenties, rich brown skin, short natural afro, wearing a muted terracotta blouse, relaxed genuine smile. Natural head-and-shoulders photograph at eye level, looking toward camera, face centrally framed with generous room around the head for circular avatar crops. Soft diffused daylight, warm cream apartment background softly blurred, realistic skin texture, no beauty-filter effect. Square composition. One adult only. Do not resemble a named real person or celebrity. Fully clothed everyday portrait, no text, no watermark, no logos."
+    },
+    {
+      "path": "roommates/rita.png",
+      "prompt": "Photorealistic-natural. Asset type: fictional demo roommate profile portrait for SheNest. An entirely fictional adult Nigerian woman in her early thirties, dark brown skin, long neat braids over one shoulder, wearing a soft cream top, warm approachable expression. Natural head-and-shoulders photograph at eye level, looking toward camera, face centrally framed with generous room around the head for circular avatar crops. Soft diffused daylight, warm cream apartment background softly blurred, realistic skin texture, no beauty-filter effect. Square composition. One adult only. Do not resemble a named real person or celebrity. Fully clothed everyday portrait, no text, no watermark, no logos."
+    }
+  ]
+}

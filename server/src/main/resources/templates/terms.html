@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::content})}">
+  <body>
+    <main th:fragment="content" class="page section policy-page" id="main-content" tabindex="-1">
+      <p class="eyebrow">Community guidelines</p>
+      <h1>Terms of use</h1>
+      <p>Last updated: 1 October 2026.</p>
+      <p>SheNest is an educational school project. These terms explain how to use the demo respectfully. By creating an account and using the demo, you agree to these guidelines.</p>
+      <nav class="policy-contents" aria-label="Terms of use contents">
+        <a href="#demo">About the demo</a><a href="#accounts">Accounts</a>
+        <a href="#conduct">Respectful use</a><a href="#safety">Reports and blocks</a>
+        <a href="#availability">Availability</a><a href="#questions">Questions</a>
+      </nav>
+      <section id="demo"><h2>About the demo</h2>
+        <p>SheNest demonstrates property searches, roommate profiles, messages, and booking requests. Demo listings and people are fictional, and some images are AI-generated. A verification badge demonstrates an administrator's approval; it does not guarantee a property's existence, ownership, or safety.</p>
+        <p>Booking requests are demonstrations, not rental agreements. Do not make payments or arrange real property visits based on demo listings.</p>
+      </section>
+      <section id="accounts"><h2>Your account and content</h2>
+        <p>Use test information and keep your password private. Do not impersonate a real person. Share only text and images you own or have permission to use, and avoid posting another person's private details.</p>
+        <p>Content you submit may be displayed to other users as described in our <a href="/privacy">Privacy policy</a>. The project owner may remove inappropriate content or reset accounts and data as part of testing and assessment.</p>
+      </section>
+      <section id="conduct"><h2>Respectful use</h2>
+        <p>Do not harass, threaten, discriminate against, or scam other members. Do not post misleading information, spam, illegal content, or malicious files. Do not try to access another person's account or private messages, or disrupt the demo.</p>
+      </section>
+      <section id="safety"><h2>Reports and blocks</h2>
+        <p>You can report a listing, profile, member, or received message. Administrators can review the report and mark it reviewed or dismissed. Submit reports honestly; reporting does not automatically remove content or block a member.</p>
+        <p>Blocking stops new direct messages and booking requests in both directions. Existing messages and bookings remain available, and public profiles remain visible. You can unblock someone in your account settings, but contact stays unavailable if they have also blocked you.</p>
+        <p>The demo is not an emergency service. If you are in immediate danger, contact local emergency services.</p>
+      </section>
+      <section id="availability"><h2>Availability and changes</h2>
+        <p>This project is provided for learning and demonstration. It may be unavailable, contain errors, or change as it is developed. Test data may be reset. Updated guidelines will be published on this page with a revised date.</p>
+      </section>
+      <section id="questions"><h2>Questions</h2>
+        <p>Contact the project owner or instructor through the school channel used to share this demo.</p>
+      </section>
+      <p><a href="/privacy">Read the privacy policy</a></p>
+    </main>
+  </body>
+</html>

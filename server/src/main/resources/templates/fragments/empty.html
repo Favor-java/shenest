@@ -1,0 +1,12 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <main id="main-content" tabindex="-1" class="empty-page" th:fragment="empty(title, message, url, label)">
+      <div>
+        <h1 th:text="${title}"></h1>
+        <p th:text="${message}"></p>
+        <a th:if="${url != null}" class="button" th:href="${url}" th:text="${label}"></a>
+      </div>
+    </main>
+  </body>
+</html>

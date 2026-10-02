@@ -1,0 +1,21 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <main id="main-content" tabindex="-1" th:fragment="content" class="form-page section">
+      <a class="back-link" th:href="@{/properties/{id}(id=${property.id})}">← Back to property</a>
+      <div class="form-heading">
+        <p class="eyebrow">Landlord tools</p>
+        <h1>Update property details</h1>
+        <p th:text="${property.title}"></p>
+      </div>
+      <form class="listing-form" th:attr="data-property-details=${property.id}">
+        <div th:replace="~{fragments/property-fields :: fields(${details})}"></div>
+        <button class="button">Save property details</button>
+      </form>
+    </main>
+  </body>
+</html>

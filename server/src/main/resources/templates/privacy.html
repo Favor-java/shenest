@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::content})}">
+  <body>
+    <main th:fragment="content" class="page section policy-page" id="main-content" tabindex="-1">
+      <p class="eyebrow">Your information</p>
+      <h1>Privacy policy</h1>
+      <p>Last updated: 1 October 2026.</p>
+      <p>SheNest is a school project demonstrating a housing and roommate community. Use fictional details when testing it. Do not upload identity documents, financial information, or sensitive personal information.</p>
+      <nav class="policy-contents" aria-label="Privacy policy contents">
+        <a href="#information">Information we collect</a><a href="#use">How it is used</a>
+        <a href="#visibility">Who can see it</a><a href="#cookies">Cookies</a>
+        <a href="#choices">Your choices</a><a href="#contact">Questions</a>
+      </nav>
+      <section id="information"><h2>Information we collect</h2>
+        <p>When you create an account, we store your name, email address, account type, and a hashed password. We also store the listings, photographs, roommate profiles, favorites, booking requests, reviews, messages, reports, and blocks you create.</p>
+      </section>
+      <section id="use"><h2>How it is used</h2>
+        <p>We use this information to sign you in, display listings and profiles, manage saved homes and booking requests, deliver messages, and review safety reports. Blocks are used to prevent new messages and booking requests between accounts.</p>
+      </section>
+      <section id="visibility"><h2>Who can see it</h2>
+        <p>Listings, roommate profiles, and reviews are public within the demo. Messages are visible to the two participants. A landlord can see the name, email, and request message of someone who books their listing.</p>
+        <p>Safety reports and a copy of the reported content are available to administrators for review. Reports are not shown to the reported member. Your block list is available in your account; another member may notice that contact is unavailable. The project owner can access stored data to maintain and assess the project.</p>
+      </section>
+      <section id="cookies"><h2>Cookies and storage</h2>
+        <p>We use a session cookie to remember your login and help protect your actions. This project does not include advertising cookies or advertising trackers. Signing out ends your current website session.</p>
+        <p>Fonts are loaded from Google Fonts. Your browser contacts that service to download them, which shares connection information with Google.</p>
+        <p>Demo records remain in the project database until the project owner removes them or resets the demo. There is no automatic deletion schedule. Reports may retain a copy of the content submitted for review.</p>
+      </section>
+      <section id="choices"><h2>Your choices</h2>
+        <p>You can choose which optional profile information to share, update your roommate profile, remove favorites, and manage blocked members from your account. Contact the project owner to request access to, correction of, or deletion of your test data; these requests are handled manually.</p>
+        <p>Only share information you are comfortable making visible to others. No online system can guarantee complete security.</p>
+      </section>
+      <section id="contact"><h2>Questions about your information</h2>
+        <p>Contact the project owner or instructor through the school channel used to share this demo. This school project does not have a dedicated public support email.</p>
+        <p>For general information about privacy rights in Nigeria, visit the <a href="https://ndpc.gov.ng/">Nigeria Data Protection Commission</a>.</p>
+      </section>
+      <p><a href="/terms">Read the terms of use</a></p>
+    </main>
+  </body>
+</html>

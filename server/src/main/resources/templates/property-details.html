@@ -1,0 +1,234 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <main id="main-content" tabindex="-1"
+      th:fragment="content"
+      class="details-page section"
+      th:attr="data-property-id=${property.id}"
+    >
+      <a class="back-link" href="/properties">← Back to homes</a>
+      <p th:unless="${isOwner}"><a th:href="${loggedIn ? '/report?type=PROPERTY&amp;id=' + property.id : '/login'}">Report this listing</a></p>
+      <div class="details-layout">
+        <div>
+          <img
+            class="details-image"
+            data-gallery-main
+            th:src="${property.image ?: '/images/hero-home.png'}"
+            th:alt="${property.title}"
+          />
+          <div th:if="${gallery.size() > 1}" class="property-gallery" aria-label="Property photos">
+            <button
+              type="button"
+              th:each="image, position:${gallery}"
+              th:class="${position.first ? 'gallery-thumbnail selected' : 'gallery-thumbnail'}"
+              th:attr="data-gallery-src=${image},aria-pressed=${position.first},aria-label=${'View photo ' + (position.index + 1)}"
+            >
+              <img
+                th:src="${image}"
+                th:alt="${property.title + ' — photo ' + (position.index + 1)}"
+              />
+            </button>
+          </div>
+          <div class="details-copy">
+            <div class="details-title-row">
+              <div>
+                <h1 th:text="${property.title}"></h1>
+                <p>
+                  <svg th:replace="~{fragments/icons :: map-pin(16)}"></svg
+                  ><th:block th:text="${property.location}"></th:block>
+                </p>
+              </div>
+              <span th:if="${property.verified != 0}" class="verified"
+                ><svg th:replace="~{fragments/icons :: shield-check(17)}"></svg>Verified</span
+              >
+            </div>
+            <p class="details-description" th:text="${property.description}"></p>
+            <div class="details-meta">
+              <span th:text="${property.type}"></span
+              ><strong
+                >₦<th:block
+                  th:text="${#numbers.formatInteger(property.price,1,'COMMA')}"
+                ></th:block>
+                / year</strong
+              >
+            </div>
+            <p th:if="${details.demo}" class="demo-image-note">
+              Demo listing: these AI-generated interiors are illustrations, not photographs of a
+              real rental.
+            </p>
+          </div>
+          <section class="listing-detail-panel">
+            <h2>Space and amenities</h2>
+            <dl class="listing-facts">
+              <div>
+                <dt>Bedrooms in this listing</dt>
+                <dd
+                  th:text="${details.bedrooms == null ? 'Confirm with landlord' : (details.bedrooms == 0 ? 'Open-plan studio' : details.bedrooms)}"
+                ></dd>
+              </div>
+              <div>
+                <dt>Bathrooms</dt>
+                <dd th:text="${details.bathrooms ?: 'Confirm with landlord'}"></dd>
+              </div>
+              <div>
+                <dt>Maximum occupants</dt>
+                <dd th:text="${details.max_occupants ?: 'Confirm with landlord'}"></dd>
+              </div>
+              <div>
+                <dt>Furnishing</dt>
+                <dd th:text="${details.furnishing ?: 'Confirm with landlord'}"></dd>
+              </div>
+              <div>
+                <dt>Available from</dt>
+                <dd th:text="${details.available_from ?: 'Confirm with landlord'}"></dd>
+              </div>
+              <div>
+                <dt>Listing reference</dt>
+                <dd th:text="${'SN-' + property.id}"></dd>
+              </div>
+            </dl>
+            <ul th:unless="${amenities.isEmpty()}" class="amenities-list">
+              <li th:each="amenity:${amenities}" th:text="${amenity}"></li>
+            </ul>
+            <p th:if="${amenities.isEmpty()}" class="empty-note">
+              No amenity list has been supplied yet. Ask the landlord what is included.
+            </p>
+          </section>
+          <section class="listing-detail-panel">
+            <h2>Rent and additional costs</h2>
+            <dl class="listing-facts">
+              <div>
+                <dt>Advertised yearly rent</dt>
+                <dd th:text="${'₦' + #numbers.formatInteger(property.price,1,'COMMA')}"></dd>
+              </div>
+              <div>
+                <dt>Monthly equivalent</dt>
+                <dd
+                  th:text="${'About ₦' + #numbers.formatInteger(monthlyEquivalent,1,'COMMA')}"
+                ></dd>
+              </div>
+            </dl>
+            <p class="empty-note">
+              The monthly figure is a comparison only, not an offered monthly payment plan.
+            </p>
+            <h3>Payment terms</h3>
+            <p
+              class="listing-preserve-lines"
+              th:text="${details.rent_terms ?: 'Payment arrangements have not been supplied. Confirm the rent period and payment schedule with the landlord.'}"
+            ></p>
+            <h3>Additional costs</h3>
+            <p
+              class="listing-preserve-lines"
+              th:text="${details.additional_costs ?: 'Deposits, service charges and utility costs have not been supplied. Ask for a full breakdown before committing.'}"
+            ></p>
+          </section>
+          <section class="listing-detail-panel">
+            <h2>Location and landlord</h2>
+            <dl class="listing-facts">
+              <div>
+                <dt>Area</dt>
+                <dd th:text="${property.location}"></dd>
+              </div>
+              <div>
+                <dt>Listed by</dt>
+                <dd th:text="${landlord.name}"></dd>
+              </div>
+              <div>
+                <dt>Listing status</dt>
+                <dd
+                  th:text="${property.verified != 0 ? 'Verified listing' : 'Awaiting verification'}"
+                ></dd>
+              </div>
+              <div>
+                <dt>Listed on</dt>
+                <dd th:text="${property.created_at ?: 'Not supplied'}"></dd>
+              </div>
+            </dl>
+            <p class="empty-note">
+              Request the exact address and a viewing from the landlord. A listing status does not
+              guarantee the condition or safety of a property.
+            </p>
+          </section>
+          <section class="listing-detail-panel">
+            <h2>House rules and viewing</h2>
+            <ul th:unless="${houseRules.isEmpty()}" class="amenities-list">
+              <li th:each="rule:${houseRules}" th:text="${rule}"></li>
+            </ul>
+            <p th:if="${houseRules.isEmpty()}" class="empty-note">
+              The landlord has not added house rules yet.
+            </p>
+            <h3>Questions to ask before booking</h3>
+            <ul class="viewing-checklist">
+              <li>Is the home still available for your move-in date?</li>
+              <li>Which furnishings, utilities and shared spaces are included?</li>
+              <li>What are the rules for guests, noise and shared facilities?</li>
+              <li>Can you view the property and receive a written cost breakdown?</li>
+            </ul>
+          </section>
+          <section class="reviews-section">
+            <h2>Reviews</h2>
+            <p
+              th:unless="${reviews.isEmpty()}"
+              class="empty-note"
+              th:text="${#numbers.formatDecimal(averageRating,1,1) + ' / 5 from ' + reviews.size() + ' review(s)'}"
+            ></p>
+            <form class="review-form" th:attr="data-review=${property.id}">
+              <select name="rating">
+                <option
+                  th:each="rating:${ {5,4,3,2,1} }"
+                  th:value="${rating}"
+                  th:text="${rating + ' stars'}"
+                ></option></select
+              ><input name="comment" placeholder="Share your experience" /><button
+                class="button small"
+              >
+                Post
+              </button>
+            </form>
+            <div class="review-list" data-review-list>
+              <p th:if="${reviews.isEmpty()}">No reviews yet.</p>
+              <article th:each="item:${reviews}">
+                <span
+                  ><svg th:replace="~{fragments/icons :: star(15)}"></svg>
+                  <th:block th:text="${item.rating}"></th:block>/5</span
+                >
+                <p th:text="${item.comment ?: 'No written comment.'}"></p>
+              </article>
+            </div>
+          </section>
+        </div>
+        <aside class="booking-card">
+          <h2>Interested in this home?</h2>
+          <p>Save it, contact the landlord, or send a booking request.</p>
+          <th:block th:unless="${isOwner}">
+            <button class="outline-button full" th:attr="data-details-favorite=${property.id}">
+              <svg th:replace="~{fragments/icons :: heart(17,false)}"></svg>Save favorite</button
+            ><a class="outline-button full" th:href="@{/messages/{id}(id=${property.owner_id})}"
+              ><svg th:replace="~{fragments/icons :: message-circle(17)}"></svg>Message landlord</a
+            >
+            <form th:attr="data-booking=${property.id}">
+              <label>
+                Booking message<textarea
+                  name="message"
+                  rows="5"
+                  placeholder="Hi, I am interested in this home..."
+                ></textarea>
+              </label>
+              <button class="button full">Request booking</button>
+            </form>
+          </th:block>
+          <th:block th:if="${isOwner}">
+            <p class="owner-note">This is your property listing.</p>
+            <a class="button full" th:href="@{/properties/{id}/edit(id=${property.id})}"
+              >Edit property details</a
+            >
+          </th:block>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

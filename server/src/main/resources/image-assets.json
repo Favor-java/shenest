@@ -1,0 +1,66 @@
+{
+  "generator": "Built-in image_gen",
+  "purpose": "Fictional demo interiors and SheNest brand assets. Not photographs of actual listed properties.",
+  "assets": [
+    {
+      "filename": "shenest-logo.png",
+      "path": "shenest-logo.png",
+      "transparent_background": true,
+      "prompt": "Use case: logo-brand. Asset type: new logo icon for SheNest, a women-focused home and roommate platform. Create one original, beautifully simple flat logo icon: a dusty rose (#d98a9e) circular badge containing a clean white house roof and a gently curved S-shaped nesting ribbon, suggesting home, belonging and shelter. Compact bold silhouette readable at 35px or favicon size. Balanced negative space, centered on a square canvas with minimal padding. Only dusty rose and white. Transparent background outside the badge, true alpha transparency. No wordmark, no other text, no mockup, no gradient, no shadows, no watermark."
+    },
+    {
+      "filename": "hero-home.png",
+      "path": "hero-home.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: SheNest homepage hero image. A welcoming contemporary Lagos apartment living room: cream sofa, subtle blush cushions, warm wooden coffee table, a leafy indoor plant, linen curtains and broad daylight windows. Quiet, secure-feeling, lived-in but tidy accommodation for young professionals. Photorealistic interior editorial photography, natural material texture, realistic room geometry, warm balanced daylight, not an extravagant mansion or CGI render. Landscape 3:2 composition with central furniture safely framed for square and mobile crops. No people, text, branding, collage or watermark."
+    },
+    {
+      "filename": "cozy-blush-studio.png",
+      "path": "seed/cozy-blush-studio.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, Blush Studio in Lekki Phase 1. A bright self-contained Lagos studio with modest soft modern furnishings: double bed with blush bedding, fitted compact kitchenette along one wall, air conditioner, small calm work desk, warm wood and cream walls. Show coherent single room layout, natural fabric texture and realistic proportions. Professional but natural interior photography, warm daylight, landscape 3:2 view from doorway, main features within center for card crops. No people, text, branding, collage or watermark."
+    },
+    {
+      "filename": "bright-yaba-room.png",
+      "path": "seed/bright-yaba-room.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, Bright Private Room near Yaba. A practical furnished private bedroom in a women-only shared Lagos apartment, single bed with cream and muted sage bedding, study desk by daylight window, wooden wardrobe and wall-mounted air conditioner. Modest affordable room, clean tiled floor, realistic materials, bright natural light. Photorealistic interior photography, landscape 3:2 composition, all key furniture centered for card crops. No people, text, branding, collage or watermark."
+    },
+    {
+      "filename": "modern-ikeja-apartment.png",
+      "path": "seed/modern-ikeja-apartment.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, Modern One-Bed Apartment in Ikeja. A warm contemporary Lagos one-bedroom apartment living area with an oatmeal sofa, wooden sideboard, woven rug, fitted kitchen visible through an open doorway, broad windows and cream walls. Comfortable quiet residential home, light blush accent cushion, honest natural textures and coherent architectural perspective. Photorealistic interior editorial photography, warm daylight, landscape 3:2, centered subject safe for card cropping. No people, text, branding, collage or watermark."
+    },
+    {
+      "filename": "premium-ikoyi-bedroom.png",
+      "path": "seed/premium-ikoyi-bedroom.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, Premium Ensuite Room in Ikoyi. Spacious tasteful ensuite Lagos bedroom: upholstered double bed, ivory duvet, dusty rose accent throw, built-in wardrobe, study area and wall-mounted air conditioning. Open ensuite doorway hints at clean contemporary bathroom. Premium but believable shared apartment, natural wood and linen detail, realistic room proportions. Photorealistic interior photography in warm daylight, landscape 3:2 composition safely centered for listing card crops. No people, text, branding, collage or watermark."
+    },
+    {
+      "filename": "akoka-shared-room.png",
+      "path": "seed/akoka-shared-room.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, Affordable Shared Room in Akoka. A tidy affordable two-person student bedroom in Lagos: exactly two separate single beds, each with a simple individual study desk, wardrobe storage, white painted walls, daylight window and tiled floor. Pale blush and muted sage bedding, modest practical furniture, real fabric and wood textures. Photorealistic natural interior photography, landscape 3:2 wide composition with both beds clearly visible in central area. No people, luxury furnishings, text, branding, collage or watermark."
+    },
+    {
+      "filename": "vi-city-studio.png",
+      "path": "seed/vi-city-studio.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, City View Studio in Victoria Island. A stylish compact Lagos studio with large windows overlooking a believable low-rise and mid-rise tropical urban skyline, a double bed, small furnished sitting area, compact kitchen and subtle blush and warm beige accents. Sophisticated professional accommodation, not a penthouse mansion. Natural textures and realistic perspective, photorealistic interior photography in bright soft daylight, landscape 3:2, central subject safe for card crops. No people, recognizable landmark claims, text, branding, collage or watermark."
+    },
+    {
+      "filename": "gbagada-apartment.png",
+      "path": "seed/gbagada-apartment.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, Calm Two-Bed Apartment in Gbagada. A comfortable spacious living room of a practical Lagos two-bedroom apartment: warm taupe fabric sofa, cream walls, simple wooden coffee table, two bedroom doors visible along a hallway, tiled floor, broad window, small houseplant and a blush accent throw. Welcoming secure-compound residential atmosphere without claiming safety certifications. Natural photorealistic interior photography, soft daylight and realistic material texture, landscape 3:2 view with central furniture safe for card crops. No people, text, branding, collage or watermark."
+    },
+    {
+      "filename": "surulere-room.png",
+      "path": "seed/surulere-room.png",
+      "transparent_background": false,
+      "prompt": "Use case: photorealistic-natural. Asset type: fictional SheNest demo listing photo, Cozy Room in Surulere. A clean modest private bedroom in a friendly women-only Lagos flat: neatly made single bed with terracotta and cream bedding, compact wardrobe, small bedside table, practical desk and daylight window with light curtains. Cozy lived-in textures, warm cream walls, simple tiled floor, realistic scale, distinct from a luxury hotel. Photorealistic interior photography, soft natural daylight, landscape 3:2 composition with centered room features safe for card crops. No people, text, branding, collage or watermark."
+    }
+  ]
+}

@@ -11,15 +11,16 @@ The SQLite seed data expects these generated property images in this folder:
 - `gbagada-apartment.png`
 - `surulere-room.png`
 
-The image bundle generated in ChatGPT already uses these exact filenames.
+Generated copies are packaged under `src/main/resources/static/images/seed/`.
+The Java application serves those automatically when this folder has no matching
+image. Files placed here override the packaged demo images.
 
-After placing the images here, run:
+Run the application from `server/`:
 
 ```bash
-cd server
-npm install
-npm run seed
-npm run dev
+./mvnw spring-boot:run
 ```
 
 The seeded property records point to `http://localhost:4000/uploads/seed/<filename>`.
+
+The generated interiors are fictional demo images, not actual property photos.

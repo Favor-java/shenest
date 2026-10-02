@@ -1,0 +1,87 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <main id="main-content" tabindex="-1" th:fragment="content" class="page section">
+      <div class="page-heading">
+        <p class="eyebrow">Roommate matching</p>
+        <h1>Find someone you can live well with.</h1>
+        <p>Find women with a similar location, budget and lifestyle.</p>
+        <p class="demo-image-note">
+          Portraits on the demo profiles are AI-generated illustrations, not real members.
+        </p>
+      </div>
+      <div class="roommate-layout">
+        <section>
+          <input
+            class="roommate-search"
+            data-search="roommates"
+            th:value="${location}"
+            placeholder="Filter by location"
+          />
+          <div class="roommate-list" data-roommate-results>
+            <article class="roommate-card" th:each="profile:${profiles}">
+              <img
+                th:if="${profile.portrait != null}"
+                class="avatar roommate-portrait"
+                th:src="${profile.portrait}"
+                th:alt="${profile.name + ' — AI-generated demo portrait'}"
+                width="54"
+                height="54"
+              />
+              <div
+                th:if="${profile.portrait == null}"
+                class="avatar"
+                th:text="${#strings.toUpperCase(#strings.substring(profile.name,0,T(java.lang.Math).min(2,profile.name.length())))}"
+              ></div>
+              <div class="roommate-card-content">
+                <h3 th:text="${profile.name}"></h3>
+                <p th:text="${profile.bio}"></p>
+                <div class="roommate-meta">
+                  <span
+                    ><svg th:replace="~{fragments/icons :: map-pin(14)}"></svg
+                    ><th:block th:text="${profile.location}"></th:block></span
+                  ><span
+                    ><svg th:replace="~{fragments/icons :: wallet(14)}"></svg>₦<th:block
+                      th:text="${#numbers.formatInteger(profile.budget,1,'COMMA')}"
+                    ></th:block
+                  ></span>
+                </div>
+                <small
+                  th:if="${!#strings.isEmpty(profile.lifestyle)}"
+                  th:text="${profile.lifestyle}"
+                ></small
+                ><small
+                  th:if="${!#strings.isEmpty(profile.move_in)}"
+                  th:text="${'Move-in: ' + profile.move_in}"
+                ></small
+                ><a
+                  th:if="${currentUser == null or currentUser.id != profile.user_id}"
+                  class="message-link"
+                  th:href="@{/messages/{id}(id=${profile.user_id})}"
+                  >Send message →</a
+                >
+                <a th:if="${currentUser != null and currentUser.id != profile.user_id}" class="message-link"
+                  th:href="@{/report(type='USER',id=${profile.user_id})}">Report profile</a>
+              </div>
+            </article>
+          </div>
+        </section>
+        <aside class="profile-form">
+          <h2>Create your profile</h2>
+          <form data-roommate-profile>
+            <label>About you<textarea name="bio" rows="4" required></textarea></label>
+            <label>Preferred location<input name="location" required /></label>
+            <label>Budget (₦)<input name="budget" type="number" required /></label>
+            <label>Move-in period<input name="moveIn" /></label>
+            <label>Lifestyle<input name="lifestyle" /></label>
+            <button class="button full">Save profile</button>
+          </form>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <th:block th:fragment="content">
+      <th:block th:unless="${loggedIn}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('Messages','Log in to contact another SheNest member.','/login','Log in')}"
+        ></main>
+      </th:block>
+      <main id="main-content" tabindex="-1" th:if="${loggedIn}" class="messages-page">
+        <div class="chat-card">
+          <header>
+            <a href="/roommates" aria-label="Back to roommates">←</a>
+            <div><strong th:text="${otherName}"></strong><small>SheNest conversation</small></div>
+          </header>
+          <div th:unless="${isSelf}" class="safety-actions">
+            <a th:href="@{/report(type='USER',id=${recipientId})}">Report member</a>
+            <button class="outline-button small" type="button" th:attr="data-block-user=${recipientId},data-blocked=${blockedByMe}"
+              th:text="${blockedByMe ? 'Unblock member' : 'Block member'}"></button>
+          </div>
+          <p class="block-help" th:unless="${isSelf}">Blocking stops new messages and booking requests in both directions. Existing conversations and bookings stay available; public profiles remain visible.</p>
+          <p th:if="${contactBlocked}" class="block-help" role="status">Contact is unavailable between these accounts.</p>
+          <div class="chat-body" data-chat-body>
+            <div th:if="${messages.isEmpty()}" class="chat-empty">
+              <p>No messages yet.</p>
+              <span>Say hello and start a respectful conversation.</span>
+            </div>
+            <div
+              th:each="message:${messages}"
+              th:class="${message.sender_id == currentUser.id ? 'message mine':'message'}"
+            ><span th:text="${message.text}"></span>
+              <a th:if="${message.receiver_id == currentUser.id}" class="message-report"
+                th:href="@{/report(type='MESSAGE',id=${message.id})}" th:attr="aria-label=${'Report message ' + message.id}">Report</a>
+            </div>
+          </div>
+          <form th:unless="${contactBlocked or isSelf}" class="chat-form" th:attr="data-message-recipient=${recipientId}">
+            <input name="text" placeholder="Write a message..." aria-label="Message" required /><button class="button">
+              Send
+            </button>
+          </form>
+        </div>
+      </main>
+    </th:block>
+  </body>
+</html>

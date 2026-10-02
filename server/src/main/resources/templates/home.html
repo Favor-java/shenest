@@ -1,0 +1,90 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <main id="main-content" tabindex="-1" th:fragment="content">
+      <section class="hero">
+        <div class="hero-copy">
+          <h1>Find a place that feels like <em>home.</em></h1>
+          <p>Safe accommodation, trusted listings and compatible roommates — made for women.</p>
+          <form class="search-box" action="/properties" method="get">
+            <svg th:replace="~{fragments/icons :: search(20)}"></svg
+            ><input
+              name="search"
+              aria-label="Search location"
+              placeholder="Where do you want to live?"
+            /><button class="button" type="submit">Search homes</button>
+          </form>
+          <div class="trust-row">
+            <span
+              ><svg th:replace="~{fragments/icons :: shield-check(17)}"></svg> Verified
+              listings</span
+            ><span><svg th:replace="~{fragments/icons :: users(17)}"></svg> Roommate matching</span
+            ><span
+              ><svg th:replace="~{fragments/icons :: heart-handshake(17)}"></svg> Women-focused
+              community</span
+            >
+          </div>
+        </div>
+        <div class="hero-image" role="img" aria-label="Comfortable modern apartment">
+          <div class="hero-note">
+            <span>Verified home</span><strong>Move with confidence.</strong>
+          </div>
+        </div>
+      </section>
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Explore homes</p>
+            <h2>Places you might love</h2>
+          </div>
+          <a href="/properties">See all properties →</a>
+        </div>
+        <div th:if="${properties.isEmpty()}" class="empty-inline">
+          <p>No homes are listed yet.</p>
+          <a class="button" href="/properties">Browse homes</a>
+        </div>
+        <div class="property-grid">
+          <th:block th:each="property:${properties}">
+            <article th:replace="~{fragments/property-card :: card(${property})}"></article>
+          </th:block>
+        </div>
+      </section>
+      <section class="roommate-banner">
+        <div>
+          <p class="eyebrow">Roommate matching</p>
+          <h2>Not just a room. Find your people too.</h2>
+          <p>
+            Create a simple profile and discover women looking for a home and lifestyle similar to
+            yours.
+          </p>
+          <a class="button" href="/roommates">Find a roommate</a>
+        </div>
+        <div class="roommate-circles" aria-hidden="true">
+          <img
+            src="/images/roommates/ada.png"
+            alt=""
+            title="AI-generated demo roommate portrait"
+            width="90"
+            height="90"
+          /><img
+            src="/images/roommates/zainab.png"
+            alt=""
+            title="AI-generated demo roommate portrait"
+            width="90"
+            height="90"
+          /><img
+            src="/images/roommates/temi.png"
+            alt=""
+            title="AI-generated demo roommate portrait"
+            width="90"
+            height="90"
+          />
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

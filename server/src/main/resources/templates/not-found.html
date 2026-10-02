@@ -1,0 +1,31 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <th:block th:fragment="content">
+      <main id="main-content" tabindex="-1" th:if="${homeMissing == true}" class="empty-page">
+        <div>
+          <h1>Home not found</h1>
+          <a href="/properties">Back to homes</a>
+        </div>
+      </main>
+      <main id="main-content" tabindex="-1" th:unless="${homeMissing == true}" class="empty-page not-found">
+        <div>
+          <span class="big-404" th:text="${serverError == true ? '500':'404'}">404</span>
+          <h1
+            th:text="${serverError == true ? 'Something went wrong.' : 'This page wandered off.'}"
+          >
+            This page wandered off.
+          </h1>
+          <p
+            th:text="${serverError == true ? 'Please try again in a moment.' : 'The page you tried to open does not exist.'}"
+          ></p>
+          <a class="button" href="/">Go back home</a>
+        </div>
+      </main>
+    </th:block>
+  </body>
+</html>

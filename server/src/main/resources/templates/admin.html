@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <th:block th:fragment="content">
+      <th:block th:unless="${isAdmin}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('Admin access','Log in with an admin account to access the platform dashboard.','/login','Admin log in')}"
+        ></main>
+      </th:block>
+      <main id="main-content" tabindex="-1" th:if="${isAdmin}" class="page section">
+        <div class="page-heading">
+          <p class="eyebrow">Admin</p>
+          <h1>Admin dashboard</h1>
+          <p>Review new listings and community safety reports.</p>
+        </div>
+        <div class="account-stats admin-stats">
+          <article>
+            <strong th:text="${platformStats.members}"></strong><span>Members</span>
+          </article>
+          <article>
+            <strong th:text="${platformStats.homes}"></strong><span>Property listings</span>
+          </article>
+          <article>
+            <strong th:text="${platformStats.pending}"></strong><span>Awaiting verification</span>
+          </article>
+          <article>
+            <strong th:text="${platformStats.bookings}"></strong><span>Booking requests</span>
+          </article>
+        </div>
+        <h2 class="admin-section-title">Property verification</h2>
+        <div th:if="${properties.isEmpty()}" class="empty-inline">
+          <p>Everything is up to date. There are no properties waiting for verification.</p>
+        </div>
+        <div th:unless="${properties.isEmpty()}" class="dashboard-list admin-list">
+          <article class="dashboard-row property-dashboard-row" th:each="property:${properties}">
+            <img th:src="${property.image ?: '/images/hero-home.png'}" alt="" />
+            <div>
+              <h3>
+                <a
+                  class="property-card-link"
+                  th:href="@{/properties/{id}(id=${property.id})}"
+                  th:text="${property.title}"
+                ></a>
+              </h3>
+              <p>
+                <th:block th:text="${property.location}"></th:block> ·
+                <th:block th:text="${property.type}"></th:block>
+              </p>
+            </div>
+            <button class="button small" th:attr="data-verify=${property.id}">Verify</button>
+          </article>
+        </div>
+        <section class="account-section" aria-labelledby="safety-reports-heading">
+          <h2 id="safety-reports-heading">Safety reports</h2>
+          <p>Reports are private. A review status records your decision; it does not automatically remove content or suspend a member.</p>
+          <p th:if="${reports.isEmpty()}">No safety reports have been submitted.</p>
+          <article class="report-card" th:each="report:${reports}">
+            <h3 th:text="${'Report #' + report.id + ' · ' + report.reason}"></h3>
+            <p><strong th:text="${report.reporter_name}"></strong> reported
+              <strong th:text="${report.subject_name}"></strong> · <span th:text="${report.created_at}"></span></p>
+            <p><span th:text="${report.target_type + ' #' + report.target_id}"></span> · <strong th:text="${report.status}"></strong></p>
+            <h4>Report details</h4><p class="report-text" th:text="${report.details}"></p>
+            <details><summary>Reported content at submission</summary><p class="report-text" th:text="${report.context}"></p></details>
+            <form th:if="${report.status == 'OPEN'}" class="safety-form" th:attr="data-report-review=${report.id}">
+              <label th:for="${'report-decision-' + report.id}">Decision</label>
+              <select th:id="${'report-decision-' + report.id}" name="status" required>
+                <option value="REVIEWED">Reviewed</option><option value="DISMISSED">Dismissed</option>
+              </select>
+              <label th:for="${'report-note-' + report.id}">Private review note</label>
+              <textarea th:id="${'report-note-' + report.id}" name="note" required maxlength="2000" rows="3"></textarea>
+              <p data-notice role="status" aria-live="polite"></p>
+              <button class="button small" type="submit">Save decision</button>
+            </form>
+            <p th:unless="${report.status == 'OPEN'}" class="report-text" th:text="${report.review_note}"></p>
+          </article>
+        </section>
+      </main>
+    </th:block>
+  </body>
+</html>

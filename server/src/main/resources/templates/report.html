@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{fragments/layout :: layout(~{::content})}">
+  <body>
+    <main id="main-content" tabindex="-1" th:fragment="content" class="page section policy-page">
+      <p class="eyebrow">Community safety</p>
+      <h1>Send a report</h1>
+      <p>Reporting <strong th:text="${targetName}"></strong>.</p>
+      <p>Your report is visible to platform administrators. It is not shared with the reported member.
+        Reporting does not block contact. You can block a member from their conversation page.</p>
+      <p>If you are in immediate danger, contact local emergency services. Reports are not an emergency service.</p>
+      <form class="safety-form" data-report>
+        <input type="hidden" name="targetType" th:value="${targetType}" />
+        <input type="hidden" name="targetId" th:value="${targetId}" />
+        <label for="report-reason">What happened?</label>
+        <select id="report-reason" name="reason" required>
+          <option value="">Choose a reason</option>
+          <option value="HARASSMENT">Harassment or unwanted contact</option>
+          <option value="SCAM">Suspected scam or fraud</option>
+          <option value="UNSAFE">Safety concern or threat</option>
+          <option value="MISLEADING">Misleading listing or profile</option>
+          <option value="OTHER">Something else</option>
+        </select>
+        <label for="report-details">Tell us what happened</label>
+        <p id="report-help">Include relevant dates and details. Avoid passwords, payment details, or unrelated personal information. Maximum 2,000 characters.</p>
+        <textarea id="report-details" name="details" rows="6" maxlength="2000" required aria-describedby="report-help"></textarea>
+        <p class="form-message" data-notice role="status" aria-live="polite"></p>
+        <button class="button" type="submit">Send report</button>
+      </form>
+      <p><a href="/account#your-reports">View your reports</a> · <a href="/privacy">How we handle your information</a></p>
+    </main>
+  </body>
+</html>

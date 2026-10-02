@@ -1,0 +1,56 @@
+{
+  "Blush Studio in Lekki Phase 1": {
+    "imageFile": "cozy-blush-studio.png",
+    "bedrooms": 0,
+    "max_occupants": 1,
+    "furnishing": "Furnished",
+    "amenities": "Fitted kitchenette\nAir conditioning\nDedicated work corner\nSelf-contained living space",
+    "gallery": ["/images/gallery/lekki-kitchen.png"]
+  },
+  "Bright Private Room near Yaba": {
+    "imageFile": "bright-yaba-room.png",
+    "bedrooms": 1,
+    "furnishing": "Furnished",
+    "amenities": "Private bedroom\nStudy desk\nWardrobe\nAir conditioning\nShared kitchen",
+    "gallery": ["/images/gallery/yaba-study.png"]
+  },
+  "Modern One-Bed Apartment in Ikeja": {
+    "imageFile": "modern-ikeja-apartment.png",
+    "bedrooms": 1,
+    "amenities": "Separate living room\nFitted kitchen\nNatural light\nResidential compound",
+    "gallery": ["/images/gallery/ikeja-bedroom.png"]
+  },
+  "Premium Ensuite Room in Ikoyi": {
+    "imageFile": "premium-ikoyi-bedroom.png",
+    "bedrooms": 1,
+    "bathrooms": 1,
+    "amenities": "Ensuite bathroom\nWardrobe space\nAir conditioning\nStudy area\nShared furnished lounge",
+    "gallery": ["/images/gallery/ikoyi-bathroom.png"]
+  },
+  "Affordable Shared Room in Akoka": {
+    "imageFile": "akoka-shared-room.png",
+    "bedrooms": 1,
+    "max_occupants": 2,
+    "amenities": "Two-person shared room\nIndividual study desks\nWardrobe storage",
+    "gallery": []
+  },
+  "City View Studio in Victoria Island": {
+    "imageFile": "vi-city-studio.png",
+    "bedrooms": 0,
+    "bathrooms": 1,
+    "amenities": "City views\nFurnished living area\nBathroom\nCompact kitchen",
+    "gallery": []
+  },
+  "Calm Two-Bed Apartment in Gbagada": {
+    "imageFile": "gbagada-apartment.png",
+    "bedrooms": 2,
+    "amenities": "Two bedrooms\nSpacious living room\nResidential compound",
+    "gallery": ["/images/gallery/gbagada-bedroom.png"]
+  },
+  "Cozy Room in Surulere": {
+    "imageFile": "surulere-room.png",
+    "bedrooms": 1,
+    "amenities": "Private bedroom\nShared flat",
+    "gallery": []
+  }
+}
