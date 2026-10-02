@@ -151,8 +151,8 @@ Controllers bind HTTP inputs and return responses. Services validate inputs,
 enforce roles/ownership, perform database operations and manage transactions.
 `Database` is the Spring JDBC repository; page services prepare Thymeleaf models.
 
-GitHub Actions runs `clean install` and the packaged application smoke checks on
-pushes and pull requests, and uploads the JAR and Surefire reports as an artifact.
+GitHub Actions runs `clean install` on pushes and pull requests, and uploads the
+JAR and Surefire reports as an artifact.
 See [BUILD_VERIFICATION.md](BUILD_VERIFICATION.md) for recorded local results.
 Do not rebuild a JAR while running directly from that same file; stop the process
 first or run a separate copy.
@@ -236,20 +236,13 @@ server/
     demo-data.json                Demo records
     application.properties        Runtime configuration
   src/test/java/com/shenest/       JUnit integration and architecture tests
-  scripts/smoke-check.mjs          Packaged-server HTTP checks
   data/shenest.db                  Existing/local data
   uploads/                        Existing/local images
-  legacy/                         Archived Express implementation
-legacy/react-client/              Archived React frontend, including local edits
 ```
-
-The legacy sources are preserved for reference and are excluded from the Java
-build. Optional npm convenience commands simply invoke Maven.
 
 ## Beginner reading guide
 
-Start with the active files under `server/src/main/`. The `legacy/` folders are
-reference copies, not part of the running application.
+Start with the files under `server/src/main/`.
 
 1. `SheNestApplication.java`: the `main` method starts the application.
 2. `PageController.java`: a browser URL selects a Java method. It delegates to
@@ -288,17 +281,6 @@ reviews, roommates, messages and uploads. Protected API requests can send
 Image uploads use multipart field `image`, a 5 MB limit, and JPEG, PNG, WebP or
 GIF. Files are served under `/uploads/`.
 
-If Node.js is available, the optional smoke check runs a packaged server with
-temporary data and verifies the REST workflows, persistence and repeatable seeding:
-
-```bash
-node server/scripts/smoke-check.mjs
-```
-
-Checks include report authorization and evidence privacy, CSRF protection for safety
-writes, both directions of message blocking, blocked booking requests, independent
-unblocking, report review, HTML escaping, policy pages and persistence after restart.
-
 The website was also checked in a browser against the original React screens at
 desktop and mobile sizes, with interaction checks for the primary user flows.
 The JUnit suite runs with `./mvnw test` from `server/`. It exercises real
@@ -308,5 +290,4 @@ reviews, roommate updates, messaging privacy, safety reports, blocks, browser
 sessions, CSRF and uploads. Architecture tests require controller dependencies
 to be Spring services. Test results appear in `server/target/surefire-reports/`.
 
-Local data, uploads, environment secrets, build outputs and archived frontend
-dependencies are ignored by Git.
+Local data, uploads, environment secrets and build outputs are ignored by Git.

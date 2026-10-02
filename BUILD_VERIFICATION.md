@@ -49,8 +49,8 @@ Its manifest starts `com.shenest.SheNestApplication` using Spring Boot's
 `JarLauncher`. `clean install` also installed the JAR and POM into the local
 Maven repository.
 
-Full output: [package](docs/verification/maven-package.txt) and
-[clean install](docs/verification/maven-clean-install.txt).
+GitHub Actions publishes the executable JAR and current test reports after each
+build.
 
 ## 3. Tests executed
 
@@ -73,29 +73,11 @@ Run the suite separately with `cd server && ./mvnw test`. Surefire reports are
 generated under `server/target/surefire-reports/`. Tests use Mockito's subclass
 mock maker to avoid requiring JVM agent attachment in restricted environments.
 
-The packaged application was also checked with:
-
-```bash
-node server/scripts/smoke-check.mjs
-```
-
-Result:
-
-```text
-Existing SQLite data and legacy bcrypt login verified on a copy.
-Passed 139 API/HTML smoke checks, browser sessions/CSRF, persistence and repeatable seeding.
-```
-
-Full [smoke check output](docs/verification/packaged-jar-smoke.txt). The checks
-start the executable JAR with temporary data, stop/restart it, and verify that
-saved records and blocks persist. Existing application data is only checked on
-an isolated copy.
-
 ## 4. GitHub verification
 
 The GitHub Actions workflow in `.github/workflows/maven.yml` repeats
-`./mvnw -B clean install` and the packaged application smoke checks for pushes
-and pull requests. It uploads the executable JAR and Surefire reports as the
+`./mvnw -B clean install` for pushes and pull requests. It uploads the executable
+JAR and Surefire reports as the
 `shenest-jar-and-test-reports` artifact.
 
 Build outputs, environment secrets, local databases and uploads are excluded
