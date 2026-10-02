@@ -5,14 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="SheNest - find safe homes and compatible roommates." />
-    <meta name="csrf-token" th:content="${csrf}" />
-    <meta name="signed-in" th:content="${loggedIn}" />
     <title>SheNest</title>
     <link rel="icon" type="image/png" href="/images/shenest-logo.png" />
     <link rel="apple-touch-icon" href="/images/shenest-logo.png" />
     <link rel="stylesheet" href="/css/styles.css" />
     <link rel="stylesheet" href="/css/enhancements.css" />
-    <script src="/js/app.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -42,7 +39,11 @@
               href="/account"
               th:text="${#strings.arraySplit(currentUser.name, ' ')[0]}"
             ></a
-            ><button class="text-button nav-plain-button" type="button" data-logout>Log out</button>
+            >
+            <form action="/ui/forms/logout" method="post" class="inline-form">
+              <input type="hidden" name="_csrf" th:value="${csrf}" />
+              <button class="text-button nav-plain-button" type="submit">Log out</button>
+            </form>
           </th:block>
           <th:block th:unless="${loggedIn}">
             <a class="text-button" href="/login">Log in</a
@@ -51,6 +52,8 @@
         </div>
       </header>
       <!-- Insert the main section supplied by the page template. -->
+      <p th:if="${notice}" th:class="${noticeError == true ? 'page-notice error' : 'page-notice'}"
+         role="status" th:text="${notice}"></p>
       <main id="main-content" tabindex="-1" th:replace="${content}"></main>
       <footer class="site-footer" aria-label="Site information">
         <span>SheNest</span>

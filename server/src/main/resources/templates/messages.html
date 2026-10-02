@@ -19,12 +19,17 @@
           </header>
           <div th:unless="${isSelf}" class="safety-actions">
             <a th:href="@{/report(type='USER',id=${recipientId})}">Report member</a>
-            <button class="outline-button small" type="button" th:attr="data-block-user=${recipientId},data-blocked=${blockedByMe}"
-              th:text="${blockedByMe ? 'Unblock member' : 'Block member'}"></button>
+            <form class="inline-form" method="post" th:action="${blockedByMe ? '/ui/forms/unblock' : '/ui/forms/block'}">
+              <input type="hidden" name="_csrf" th:value="${csrf}" />
+              <input type="hidden" name="userId" th:value="${recipientId}" />
+              <input type="hidden" name="returnTo" th:value="@{/messages/{id}(id=${recipientId})}" />
+              <button class="outline-button small" type="submit"
+                th:text="${blockedByMe ? 'Unblock member' : 'Block member'}"></button>
+            </form>
           </div>
           <p class="block-help" th:unless="${isSelf}">Blocking stops new messages and booking requests in both directions. Existing conversations and bookings stay available; public profiles remain visible.</p>
           <p th:if="${contactBlocked}" class="block-help" role="status">Contact is unavailable between these accounts.</p>
-          <div class="chat-body" data-chat-body>
+          <div class="chat-body">
             <div th:if="${messages.isEmpty()}" class="chat-empty">
               <p>No messages yet.</p>
               <span>Say hello and start a respectful conversation.</span>
@@ -37,7 +42,9 @@
                 th:href="@{/report(type='MESSAGE',id=${message.id})}" th:attr="aria-label=${'Report message ' + message.id}">Report</a>
             </div>
           </div>
-          <form th:unless="${contactBlocked or isSelf}" class="chat-form" th:attr="data-message-recipient=${recipientId}">
+          <form th:unless="${contactBlocked or isSelf}" class="chat-form" action="/ui/forms/message" method="post">
+            <input type="hidden" name="_csrf" th:value="${csrf}" />
+            <input type="hidden" name="userId" th:value="${recipientId}" />
             <input name="text" placeholder="Write a message..." aria-label="Message" required /><button class="button">
               Send
             </button>

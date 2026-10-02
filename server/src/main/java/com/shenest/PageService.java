@@ -49,6 +49,7 @@ public class PageService {
         model.addAttribute("isLandlord", hasRole(currentUser, "LANDLORD"));
         model.addAttribute("isAdmin", hasRole(currentUser, "ADMIN"));
         model.addAttribute("csrf", browserSession.getCsrfToken(request));
+        model.addAttribute("currentPath", request.getRequestURI());
     }
 
     private boolean hasRole(Map<String, Object> user, String role) {

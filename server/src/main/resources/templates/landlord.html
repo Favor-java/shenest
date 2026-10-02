@@ -82,17 +82,12 @@
                   th:text="${booking.status}"
                 ></span>
                 <th:block th:if="${booking.status == 'PENDING'}">
-                  <button
-                    class="button small"
-                    th:attr="data-booking-status=${booking.id},data-status='APPROVED'"
-                  >
-                    Approve</button
-                  ><button
-                    class="outline-button small-action"
-                    th:attr="data-booking-status=${booking.id},data-status='DECLINED'"
-                  >
-                    Decline
-                  </button>
+                  <form class="inline-form" action="/ui/forms/booking-status" method="post">
+                    <input type="hidden" name="_csrf" th:value="${csrf}" />
+                    <input type="hidden" name="bookingId" th:value="${booking.id}" />
+                    <button class="button small" type="submit" name="status" value="APPROVED">Approve</button>
+                    <button class="outline-button small-action" type="submit" name="status" value="DECLINED">Decline</button>
+                  </form>
                 </th:block>
               </div>
             </article>

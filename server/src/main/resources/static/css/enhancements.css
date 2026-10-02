@@ -197,10 +197,10 @@
   outline-offset: -3px;
 }
 .property-card .heart-button,
-.property-dashboard-row > button {
+.property-dashboard-row > form {
   z-index: 2;
 }
-.property-dashboard-row > button {
+.property-dashboard-row > form {
   position: relative;
 }
 
@@ -588,6 +588,14 @@
 .safety-form button { justify-self: start; background: #743345; color: white; }
 .safety-actions .outline-button, .safety-list .outline-button { color: #743345; }
 .safety-actions { padding: 12px 20px; }
+
+/* Ordinary HTML forms preserve the layout while Java processes submissions. */
+.inline-form { display: inline; margin: 0; }
+.page-notice { max-width: 1180px; margin: 16px auto; padding: 12px 20px; background: #f8edf0; color: #743345; border-radius: 8px; }
+.page-notice.error { background: #fff0f0; color: #962d2d; }
+.roommate-filters { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.roommate-filters .roommate-search { flex: 1; min-width: 0; margin-bottom: 0; }
+.gallery-thumbnail { display: block; }
 .block-help { padding: 0 20px; margin: 0 0 12px; font-size: 13px; line-height: 1.5; }
 .chat-card { min-height: 620px; height: auto; display: flex; flex-direction: column; }
 .chat-body { min-height: 180px; max-height: 55vh; flex: 1; }

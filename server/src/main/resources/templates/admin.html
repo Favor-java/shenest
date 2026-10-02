@@ -51,7 +51,11 @@
                 <th:block th:text="${property.type}"></th:block>
               </p>
             </div>
-            <button class="button small" th:attr="data-verify=${property.id}">Verify</button>
+            <form class="inline-form" action="/ui/forms/verify" method="post">
+              <input type="hidden" name="_csrf" th:value="${csrf}" />
+              <input type="hidden" name="propertyId" th:value="${property.id}" />
+              <button class="button small" type="submit">Verify</button>
+            </form>
           </article>
         </div>
         <section class="account-section" aria-labelledby="safety-reports-heading">
@@ -65,14 +69,15 @@
             <p><span th:text="${report.target_type + ' #' + report.target_id}"></span> · <strong th:text="${report.status}"></strong></p>
             <h4>Report details</h4><p class="report-text" th:text="${report.details}"></p>
             <details><summary>Reported content at submission</summary><p class="report-text" th:text="${report.context}"></p></details>
-            <form th:if="${report.status == 'OPEN'}" class="safety-form" th:attr="data-report-review=${report.id}">
+            <form th:if="${report.status == 'OPEN'}" class="safety-form" action="/ui/forms/review-report" method="post">
+              <input type="hidden" name="_csrf" th:value="${csrf}" />
+              <input type="hidden" name="reportId" th:value="${report.id}" />
               <label th:for="${'report-decision-' + report.id}">Decision</label>
               <select th:id="${'report-decision-' + report.id}" name="status" required>
                 <option value="REVIEWED">Reviewed</option><option value="DISMISSED">Dismissed</option>
               </select>
               <label th:for="${'report-note-' + report.id}">Private review note</label>
               <textarea th:id="${'report-note-' + report.id}" name="note" required maxlength="2000" rows="3"></textarea>
-              <p data-notice role="status" aria-live="polite"></p>
               <button class="button small" type="submit">Save decision</button>
             </form>
             <p th:unless="${report.status == 'OPEN'}" class="report-text" th:text="${report.review_note}"></p>

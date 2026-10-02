@@ -4,14 +4,14 @@ SheNest is an accommodation and roommate platform for women.
 
 The complete application now runs on **Java 17 and Spring Boot**. Java renders
 the frontend as **Thymeleaf HTML templates**. The original CSS, fonts, colors,
-responsive breakpoints, spacing and SVG icon shapes are reused. Small native
-browser scripts handle live search, favorites, form submissions and image
-previews; React and Vite are not needed to run or build the application.
+responsive breakpoints, spacing and SVG icon shapes are reused. Standard HTML
+forms submit to Java services for login, filtering, favorites, uploads and all
+other actions. The application has no JavaScript or npm dependencies.
 
 ## Stack
 
 - Java 17, Spring Boot 3.5 and Spring MVC.
-- Thymeleaf HTML templates, CSS and native JavaScript.
+- Thymeleaf HTML templates, CSS and ordinary HTML forms.
 - Spring JDBC and SQLite, with the existing schema and data.
 - Browser sessions for the website; JWT authentication for REST API clients.
 - bcrypt password hashing, local image uploads and Maven.
@@ -34,7 +34,7 @@ Windows: use `mvnw.cmd spring-boot:run`.
 
 Open **http://localhost:4000**. This single Java process serves both the website
 and the REST API. There is no frontend development server or npm installation
-required. Existing browser sessions from the React version should log in again.
+required.
 
 ## Configuration
 
@@ -139,7 +139,7 @@ From `server/`:
 java -jar target/shenest-server-1.0.0.jar
 ```
 
-The JAR includes the backend, HTML templates, CSS, SVGs and browser scripts.
+The JAR includes the backend, HTML templates, CSS, SVGs and images.
 The wrapper runs Maven, so these are equivalent to `mvn test`, `mvn package`
 and `mvn clean install` when Maven is installed. Both build commands run the
 JUnit tests before producing the executable JAR; `clean install` also installs
@@ -163,9 +163,11 @@ The original routes remain: home, property search/details/new listing, favorites
 roommates, messages, account, login/signup, landlord dashboard, admin verification
 and the styled 404 page.
 
-Property search and roommate filters update without reloading the page. Favorite
-hearts and notices update inline. The forms support registration/login, booking
-requests, reviews, roommate profiles, direct messages and image previews/uploads.
+Property search and roommate filters submit GET requests and render the matching
+results. HTML forms support registration/login, favorites, booking requests,
+reviews, roommate profiles, direct messages and image uploads. Java redirects
+after successful submissions and displays confirmation or validation messages.
+Gallery thumbnails open the full photo in a new tab.
 Landlords can approve/decline bookings; admins can verify properties.
 
 Members can report a listing, roommate profile, member or received message.
@@ -216,6 +218,8 @@ server/
     AuthController.java           REST registration/login
     AuthService.java              Registration, login, JWT and bcrypt authentication
     UiAuthService.java            Browser login session creation and logout
+    FormController.java           Ordinary HTML form POST routes
+    FormService.java              Form processing, validation messages and redirects
     PropertyController.java       Listing REST endpoints
     PropertyService.java          Listing validation, ownership and transactions
     SocialController.java         Favorites/bookings/reviews/roommates/messages
@@ -229,7 +233,6 @@ server/
   src/main/resources/
     templates/                    Thymeleaf pages and reusable fragments
     static/css/                   Original stylesheets
-    static/js/app.js              Native browser interactions
     static/images/                Logo, homepage photo and generated demo photos
     image-assets.json             Image filenames and generation prompts
     schema.sql                    Existing SQLite schema
@@ -254,14 +257,14 @@ Start with the files under `server/src/main/`.
    `@GetMapping` reads data; `@PostMapping` creates it; `@PatchMapping` changes it.
 5. `Database.java`: runs SQL. `findAll` returns a list of rows; `findOne` returns
    one row or `null`. Each row is a `Map`, so `row.get("title")` reads its title.
-6. `static/js/app.js`: connects HTML `data-*` attributes to browser actions.
-   `fetch` sends a request; `await` waits for its response. Java still renders
-   the HTML, including the sections refreshed after a live search.
+6. `FormController.java`: receives HTML form submissions under `/ui/forms`.
+   `FormService` calls the same business services as the REST controllers and
+   redirects to the result page. Hidden CSRF fields protect browser writes.
 
 For example, opening `/properties` calls `showPropertiesPage`, which reads homes,
 adds them to the model as `properties`, and renders `properties.html`. Clicking a
-favorite sends a POST request to `/api/favorites/{id}`; `SocialController` calls
-`SocialService` to save the change, and the browser updates the heart.
+favorite submits a POST form to `/ui/forms/favorite`; `FormService` calls
+`SocialService` to save the change, then redirects to the updated page.
 
 SQL uses `?` placeholders with separate values, rather than building SQL from
 user input. Login stores the user's ID in a browser session. CSRF protection
@@ -281,13 +284,12 @@ reviews, roommates, messages and uploads. Protected API requests can send
 Image uploads use multipart field `image`, a 5 MB limit, and JPEG, PNG, WebP or
 GIF. Files are served under `/uploads/`.
 
-The website was also checked in a browser against the original React screens at
-desktop and mobile sizes, with interaction checks for the primary user flows.
 The JUnit suite runs with `./mvnw test` from `server/`. It exercises real
 controllers, services, SQLite and templates using temporary data, covering
 authentication, roles, ownership, transaction rollback, favorites, bookings,
 reviews, roommate updates, messaging privacy, safety reports, blocks, browser
-sessions, CSRF and uploads. Architecture tests require controller dependencies
-to be Spring services. Test results appear in `server/target/surefire-reports/`.
+sessions, CSRF, uploads and Java-handled HTML form workflows. Architecture tests
+require controller dependencies to be Spring services. Test results appear in
+`server/target/surefire-reports/`.
 
 Local data, uploads, environment secrets and build outputs are ignored by Git.
