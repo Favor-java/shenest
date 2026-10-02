@@ -1,0 +1,32 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <th:block th:fragment="content">
+      <th:block th:unless="${loggedIn}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('Your saved homes','Log in to save properties and see them here.','/login','Log in')}"
+        ></main>
+      </th:block>
+      <main id="main-content" tabindex="-1" th:if="${loggedIn}" class="page section">
+        <div class="page-heading">
+          <p class="eyebrow">Saved for later</p>
+          <h1>Your favorite homes</h1>
+          <p>Keep the places you like in one simple list.</p>
+        </div>
+        <div th:if="${properties.isEmpty()}" class="empty-inline">
+          <p>You have not saved a home yet.</p>
+          <a class="button" href="/properties">Browse homes</a>
+        </div>
+        <div th:unless="${properties.isEmpty()}" class="property-grid favorites-grid">
+          <th:block th:each="property:${properties}" th:with="savedOverride=false">
+            <article th:replace="~{fragments/property-card :: card(${property})}"></article>
+          </th:block>
+        </div>
+      </main>
+    </th:block>
+  </body>
+</html>

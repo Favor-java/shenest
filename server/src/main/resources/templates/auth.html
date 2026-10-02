@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <main id="main-content" tabindex="-1" th:fragment="content" class="auth-page">
+      <form class="auth-card" th:attr="data-auth=${register ? 'register' : 'login'}">
+        <div class="brand auth-brand">
+          <img class="brand-mark" src="/images/shenest-logo.png" alt="" width="35" height="35" />
+          SheNest
+        </div>
+        <h1 th:text="${register ? 'Join SheNest' : 'Welcome back'}"></h1>
+        <p>Your next home starts here.</p>
+        <th:block th:if="${register}">
+          <label>Name<input name="name" required /></label>
+          <label>
+            Account type<select name="role">
+              <option value="USER">I am looking for a home</option>
+              <option value="LANDLORD">I am a landlord</option>
+            </select>
+          </label>
+        </th:block>
+        <label>Email<input name="email" type="email" required /></label>
+        <label>Password<input name="password" type="password" minlength="8" required /></label>
+        <p th:if="${register}" class="policy-links">By creating an account, you agree to the
+          <a href="/terms">Terms of use</a>. Read our <a href="/privacy">Privacy policy</a> to understand how your information is used.</p>
+        <button class="button full" th:text="${register ? 'Create account' : 'Log in'}"></button>
+        <p class="auth-footer">
+          <th:block
+            th:text="${register ? 'Already have an account?' : 'New to SheNest?'}"
+          ></th:block>
+          <a
+            th:href="${register ? '/login' : '/register'}"
+            th:text="${register ? 'Log in' : 'Create an account'}"
+          ></a>
+        </p>
+      </form>
+    </main>
+  </body>
+</html>

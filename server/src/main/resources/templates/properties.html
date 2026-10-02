@@ -1,0 +1,46 @@
+<!doctype html>
+<!-- The replace attribute wraps this page's content in the shared navigation/layout. -->
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <main id="main-content" tabindex="-1" th:fragment="content" class="page section">
+      <div class="page-heading">
+        <p class="eyebrow">Find your space</p>
+        <h1>Homes that fit your life.</h1>
+        <p>Browse rooms, studios and apartments from SheNest landlords.</p>
+      </div>
+      <div class="filter-bar">
+        <input
+          data-search="properties"
+          name="search"
+          th:value="${search}"
+          placeholder="Search by area or property name"
+        /><select data-property-type name="type">
+          <option value="">All types</option>
+          <option
+            th:each="option:${ {'Studio','Apartment','Shared apartment'} }"
+            th:selected="${type == option}"
+            th:text="${option}"
+          ></option>
+        </select>
+      </div>
+      <!-- PageController provides properties. The each attribute repeats a card for each home.
+       app.js uses data-property-results to update this section after a search. -->
+      <div data-property-results>
+        <p class="results-count" th:text="${properties.size() + ' homes found'}"></p>
+        <div th:if="${properties.isEmpty()}" class="empty-inline">
+          <p>No homes match your search.</p>
+          <a class="button" href="/properties">Clear filters</a>
+        </div>
+        <div class="property-grid">
+          <th:block th:each="property:${properties}">
+            <article th:replace="~{fragments/property-card :: card(${property})}"></article>
+          </th:block>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -4,5 +4,11 @@ dist/
 .env.local
 *.log
 .DS_Store
-server/data/
+server/data/*
+!server/data/.gitkeep
 server/uploads/
+server/target/
+
+# Local credentials and unrelated generated artifacts.
+.aws
+outputs/

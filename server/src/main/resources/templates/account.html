@@ -1,0 +1,92 @@
+<!doctype html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <th:block th:fragment="content">
+      <th:block th:unless="${loggedIn}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('Your account','Log in to see your profile.','/login','Log in')}"
+        ></main>
+      </th:block>
+      <main id="main-content" tabindex="-1" th:if="${loggedIn}" class="page section account-page">
+        <div class="account-header">
+          <div class="account-avatar">
+            <svg th:replace="~{fragments/icons :: user-round(30)}"></svg>
+          </div>
+          <div>
+            <p class="eyebrow">Your account</p>
+            <h1 th:text="${currentUser.name}"></h1>
+            <p th:text="${currentUser.email}"></p>
+            <span class="role-badge" th:text="${currentUser.role}"></span>
+          </div>
+        </div>
+        <div class="account-stats">
+          <a href="/favorites"
+            ><svg th:replace="~{fragments/icons :: heart(20,false)}"></svg
+            ><strong th:text="${favorites.size()}"></strong><span>Saved homes</span></a
+          >
+          <div>
+            <svg th:replace="~{fragments/icons :: home(20)}"></svg
+            ><strong th:text="${bookings.size()}"></strong><span>Booking requests</span>
+          </div>
+        </div>
+        <section class="account-section">
+          <h2>Your booking requests</h2>
+          <div th:if="${bookings.isEmpty()}" class="empty-inline">
+            <p>No booking requests yet.</p>
+            <a class="button small" href="/properties">Browse homes</a>
+          </div>
+          <div th:unless="${bookings.isEmpty()}" class="booking-list">
+            <article class="booking-row" th:each="booking:${bookings}">
+              <div>
+                <strong th:text="${booking.property_title}"></strong>
+                <p th:text="${booking.location}"></p>
+                <small
+                  th:if="${!#strings.isEmpty(booking.message)}"
+                  th:text="${booking.message}"
+                ></small>
+              </div>
+              <span
+                th:class="${'status status-' + #strings.toLowerCase(booking.status)}"
+                th:text="${booking.status}"
+              ></span>
+            </article>
+          </div>
+        </section>
+        <section class="account-section" id="blocked-members" aria-labelledby="blocks-heading">
+          <h2 id="blocks-heading">Blocked members</h2>
+          <p>Blocking stops new messages and booking requests in both directions. Existing messages and bookings remain available.</p>
+          <p th:if="${blocks.isEmpty()}">You have not blocked any members.</p>
+          <ul class="safety-list" th:unless="${blocks.isEmpty()}">
+            <li th:each="member:${blocks}">
+              <span th:text="${member.name}"></span>
+              <button class="outline-button small" type="button" th:attr="data-block-user=${member.id},data-blocked=true,aria-label=${'Unblock ' + member.name}">Unblock</button>
+            </li>
+          </ul>
+        </section>
+        <section class="account-section" id="your-reports" aria-labelledby="reports-heading">
+          <h2 id="reports-heading">Your reports</h2>
+          <p th:if="${reports.isEmpty()}">You have not sent any reports.</p>
+          <ul class="safety-list" th:unless="${reports.isEmpty()}">
+            <li th:each="report:${reports}">
+              <span><strong th:text="${'Report #' + report.id}"></strong> · <span th:text="${report.target_type}"></span>
+                <small th:text="${report.created_at}"></small></span>
+              <span class="status" th:text="${report.status}"></span>
+            </li>
+          </ul>
+        </section>
+        <section class="account-section">
+          <h2>Quick links</h2>
+          <div class="quick-links">
+            <a href="/roommates">Roommate profile</a><a href="/favorites">Saved homes</a
+            ><a th:if="${isLandlord}" href="/landlord">Landlord dashboard</a
+            ><a th:if="${isAdmin}" href="/admin">Admin verification</a>
+          </div>
+        </section>
+      </main>
+    </th:block>
+  </body>
+</html>

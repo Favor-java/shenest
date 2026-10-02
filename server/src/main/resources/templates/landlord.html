@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <th:block th:fragment="content">
+      <th:block th:unless="${loggedIn}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('Landlord dashboard','Log in to manage your listings.','/login','Log in')}"
+        ></main>
+      </th:block>
+      <th:block th:if="${loggedIn and !isLandlord}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('Landlord dashboard','This dashboard is only available to landlord accounts.','/account','Back to account')}"
+        ></main>
+      </th:block>
+      <main id="main-content" tabindex="-1" th:if="${isLandlord}" class="page section">
+        <div class="dashboard-heading">
+          <div>
+            <p class="eyebrow">Landlord dashboard</p>
+            <h1>Your properties</h1>
+            <p>Manage listings and incoming booking requests.</p>
+          </div>
+          <a class="button" href="/properties/new">+ Add property</a>
+        </div>
+        <div th:if="${properties.isEmpty()}" class="empty-inline">
+          <p>You have not listed a property yet.</p>
+          <a class="button" href="/properties/new">Create your first listing</a>
+        </div>
+        <div class="dashboard-list">
+          <article class="dashboard-row property-dashboard-row" th:each="property:${properties}">
+            <img th:src="${property.image ?: '/images/hero-home.png'}" alt="" />
+            <div>
+              <h3 th:text="${property.title}"></h3>
+              <p>
+                <th:block th:text="${property.location}"></th:block> ·
+                ₦<th:block
+                  th:text="${#numbers.formatInteger(property.price,1,'COMMA')}"
+                ></th:block
+                >/yr
+              </p>
+            </div>
+            <span
+              th:class="${property.verified != 0 ? 'status verified-status':'status pending-status'}"
+              th:text="${property.verified != 0 ? 'Verified':'Pending verification'}"
+            ></span
+            ><a
+              class="property-card-link"
+              th:href="@{/properties/{id}(id=${property.id})}"
+              th:attr="aria-label=${'View ' + property.title}"
+              >View →</a
+            >
+          </article>
+        </div>
+        <section class="dashboard-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Booking requests</p>
+              <h2>People interested in your homes</h2>
+            </div>
+          </div>
+          <p th:if="${bookings.isEmpty()}" class="empty-note">No booking requests yet.</p>
+          <div th:unless="${bookings.isEmpty()}" class="booking-list">
+            <article class="booking-row" th:each="booking:${bookings}">
+              <div>
+                <strong th:text="${booking.renter_name}"></strong>
+                <p>
+                  <th:block th:text="${booking.property_title}"></th:block> ·
+                  <th:block th:text="${booking.location}"></th:block>
+                </p>
+                <small th:text="${booking.renter_email}"></small>
+                <blockquote
+                  th:if="${!#strings.isEmpty(booking.message)}"
+                  th:text="${booking.message}"
+                ></blockquote>
+              </div>
+              <div class="booking-actions">
+                <span
+                  th:class="${'status status-' + #strings.toLowerCase(booking.status)}"
+                  th:text="${booking.status}"
+                ></span>
+                <th:block th:if="${booking.status == 'PENDING'}">
+                  <button
+                    class="button small"
+                    th:attr="data-booking-status=${booking.id},data-status='APPROVED'"
+                  >
+                    Approve</button
+                  ><button
+                    class="outline-button small-action"
+                    th:attr="data-booking-status=${booking.id},data-status='DECLINED'"
+                  >
+                    Decline
+                  </button>
+                </th:block>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </th:block>
+  </body>
+</html>

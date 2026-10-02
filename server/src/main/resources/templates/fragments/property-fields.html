@@ -1,0 +1,94 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <!-- These optional fields work for both a new listing and an existing one. -->
+    <div th:fragment="fields(details)" class="additional-property-fields">
+      <h2>Space and amenities</h2>
+      <p class="empty-note">Leave unknown details blank. Only add information you can confirm.</p>
+      <div class="form-row">
+        <label>
+          Bedrooms (0 for a studio)<input
+            name="bedrooms"
+            type="number"
+            min="0"
+            max="50"
+            th:value="${details.bedrooms}"
+          />
+        </label>
+        <label>
+          Bathrooms<input
+            name="bathrooms"
+            type="number"
+            min="0"
+            max="50"
+            th:value="${details.bathrooms}"
+          />
+        </label>
+      </div>
+      <div class="form-row">
+        <label>
+          Maximum occupants<input
+            name="maxOccupants"
+            type="number"
+            min="1"
+            max="50"
+            th:value="${details.max_occupants}"
+          />
+        </label>
+        <label>
+          Available from<input
+            name="availableFrom"
+            type="date"
+            th:value="${details.available_from}"
+          />
+        </label>
+      </div>
+      <label>
+        Furnishing
+        <select name="furnishing">
+          <option value="">Not specified</option>
+          <option
+            th:each="option:${ {'Furnished','Partly furnished','Unfurnished'} }"
+            th:selected="${details.furnishing == option}"
+            th:text="${option}"
+          ></option>
+        </select>
+      </label>
+      <label>
+        Amenities (one per line)<textarea
+          name="amenities"
+          rows="4"
+          maxlength="4000"
+          placeholder="Study desk&#10;Shared kitchen"
+          th:text="${details.amenities}"
+        ></textarea>
+      </label>
+      <label>
+        House rules (one per line)<textarea
+          name="houseRules"
+          rows="4"
+          maxlength="4000"
+          th:text="${details.house_rules}"
+        ></textarea>
+      </label>
+      <label>
+        Rent and payment terms<textarea
+          name="rentTerms"
+          rows="3"
+          maxlength="4000"
+          placeholder="Explain the rent period and payment arrangement"
+          th:text="${details.rent_terms}"
+        ></textarea>
+      </label>
+      <label>
+        Additional costs<textarea
+          name="additionalCosts"
+          rows="3"
+          maxlength="4000"
+          placeholder="State any deposit, service charge or other fees"
+          th:text="${details.additional_costs}"
+        ></textarea>
+      </label>
+    </div>
+  </body>
+</html>

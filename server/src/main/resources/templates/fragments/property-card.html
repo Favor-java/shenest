@@ -1,0 +1,52 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <article
+      class="property-card"
+      th:fragment="card(property)"
+      th:with="saved=${savedOverride == null ? property.saved : savedOverride}"
+    >
+      <div class="property-image-wrap">
+        <img
+          th:src="${property.image ?: '/images/hero-home.png'}"
+          th:alt="${property.title}"
+          class="property-image"
+        />
+        <button
+          th:class="${saved ? 'heart-button saved' : 'heart-button'}"
+          type="button"
+          th:attr="data-favorite=${property.id},aria-pressed=${saved},aria-label=${saved ? 'Remove ' + property.title + ' from favorites' : 'Save ' + property.title}"
+        >
+          <svg th:replace="~{fragments/icons :: heart(19, ${saved})}"></svg>
+        </button>
+      </div>
+      <div class="property-content">
+        <div class="property-title-row">
+          <h3 th:text="${property.title}"></h3>
+          <th:block th:if="${property.verified != 0}">
+            <svg th:replace="~{fragments/icons :: shield-check(18)}"></svg>
+          </th:block>
+          <th:block th:if="${property.verified == 0}">0</th:block>
+        </div>
+        <p class="location">
+          <svg th:replace="~{fragments/icons :: map-pin(15)}"></svg>
+          <th:block th:text="${property.location}"></th:block>
+        </p>
+        <p class="property-type" th:text="${property.type}"></p>
+        <div class="property-footer">
+          <strong
+            >₦<th:block
+              th:text="${#numbers.formatInteger(property.price,1,'COMMA')}"
+            ></th:block
+            ><span>/yr</span></strong
+          ><a
+            class="property-card-link"
+            th:href="@{/properties/{id}(id=${property.id})}"
+            th:attr="aria-label=${'View ' + property.title}"
+            >View home</a
+          >
+        </div>
+      </div>
+    </article>
+  </body>
+</html>

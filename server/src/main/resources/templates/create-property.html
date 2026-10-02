@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:replace="~{fragments/layout :: layout(~{::content})}"
+>
+  <body>
+    <th:block th:fragment="content">
+      <th:block th:unless="${loggedIn}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('List a property','Log in with a landlord account to create a listing.','/login','Log in')}"
+        ></main>
+      </th:block>
+      <th:block th:if="${loggedIn and !isLandlord}">
+        <main id="main-content" tabindex="-1"
+          th:replace="~{fragments/empty :: empty('Landlord feature','Property listings can only be created from a landlord account.','/properties','Browse homes')}"
+        ></main>
+      </th:block>
+      <main id="main-content" tabindex="-1" th:if="${isLandlord}" class="form-page section">
+        <a class="back-link" href="/landlord">← Back to dashboard</a>
+        <div class="form-heading">
+          <p class="eyebrow">Landlord tools</p>
+          <h1>List a property</h1>
+          <p>Add the important details and upload a clear photo of the home.</p>
+        </div>
+        <form class="listing-form" data-create-property>
+          <label>Property title<input name="title" required /></label>
+          <label>Location<input name="location" required /></label>
+          <div class="form-row">
+            <label>Yearly price (₦)<input name="price" type="number" min="1" required /></label>
+            <label>
+              Property type<select name="type">
+                <option>Studio</option>
+                <option>Apartment</option>
+                <option>Shared apartment</option>
+              </select>
+            </label>
+          </div>
+          <label>
+            Property image<input name="image" type="file" accept="image/*" data-image-input />
+          </label>
+          <label>Description<textarea name="description" rows="6" required></textarea></label>
+          <div th:replace="~{fragments/property-fields :: fields(${details})}"></div>
+          <button class="button">Create listing</button>
+        </form>
+      </main>
+    </th:block>
+  </body>
+</html>

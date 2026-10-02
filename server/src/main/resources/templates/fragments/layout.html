@@ -1,0 +1,61 @@
+<!doctype html>
+<!-- Shared shell for every page. The content parameter selects that page's main section. -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="layout(content)">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SheNest - find safe homes and compatible roommates." />
+    <meta name="csrf-token" th:content="${csrf}" />
+    <meta name="signed-in" th:content="${loggedIn}" />
+    <title>SheNest</title>
+    <link rel="icon" type="image/png" href="/images/shenest-logo.png" />
+    <link rel="apple-touch-icon" href="/images/shenest-logo.png" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/enhancements.css" />
+    <script src="/js/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <div id="root">
+      <header class="navbar">
+        <a class="brand" href="/"
+          ><img
+            class="brand-mark"
+            src="/images/shenest-logo.png"
+            alt=""
+            width="35"
+            height="35"
+          />SheNest</a
+        >
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="/properties">Find a home</a><a href="/roommates">Find a roommate</a>
+          <a th:if="${loggedIn}" href="/favorites">Favorites</a>
+          <th:block th:if="${isLandlord}">
+            <a href="/properties/new">List a property</a><a href="/landlord">Dashboard</a>
+          </th:block>
+          <a th:if="${isAdmin}" href="/admin">Admin</a>
+        </nav>
+        <div class="nav-actions">
+          <th:block th:if="${loggedIn}">
+            <a
+              class="text-button"
+              href="/account"
+              th:text="${#strings.arraySplit(currentUser.name, ' ')[0]}"
+            ></a
+            ><button class="text-button nav-plain-button" type="button" data-logout>Log out</button>
+          </th:block>
+          <th:block th:unless="${loggedIn}">
+            <a class="text-button" href="/login">Log in</a
+            ><a class="button small" href="/register">Sign up</a>
+          </th:block>
+        </div>
+      </header>
+      <!-- Insert the main section supplied by the page template. -->
+      <main id="main-content" tabindex="-1" th:replace="${content}"></main>
+      <footer class="site-footer" aria-label="Site information">
+        <span>SheNest</span>
+        <nav aria-label="Policies"><a href="/privacy">Privacy policy</a><a href="/terms">Terms of use</a></nav>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,317 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Amaka Okafor",
+      "email": "landlord@shenest.test",
+      "role": "LANDLORD"
+    },
+    {
+      "id": 2,
+      "name": "Tomi Adeyemi",
+      "email": "tomi.landlord@shenest.test",
+      "role": "LANDLORD"
+    },
+    {
+      "id": 3,
+      "name": "SheNest Admin",
+      "email": "admin@shenest.test",
+      "role": "ADMIN"
+    },
+    {
+      "id": 4,
+      "name": "Ada Nwosu",
+      "email": "ada@shenest.test",
+      "role": "USER"
+    },
+    {
+      "id": 5,
+      "name": "Zainab Bello",
+      "email": "zainab@shenest.test",
+      "role": "USER"
+    },
+    {
+      "id": 6,
+      "name": "Temi Adebayo",
+      "email": "temi@shenest.test",
+      "role": "USER"
+    },
+    {
+      "id": 7,
+      "name": "Chioma Eze",
+      "email": "chioma@shenest.test",
+      "role": "USER"
+    },
+    {
+      "id": 8,
+      "name": "Rita George",
+      "email": "rita@shenest.test",
+      "role": "USER"
+    }
+  ],
+  "properties": [
+    {
+      "id": 1,
+      "title": "Blush Studio in Lekki Phase 1",
+      "description": "A bright self-contained studio with a soft modern interior, fitted kitchenette, air conditioning and a calm work corner. Suitable for one woman looking for privacy and comfort.",
+      "location": "Lekki Phase 1, Lagos",
+      "price": 1350000,
+      "type": "Studio",
+      "image": "http://localhost:4000/uploads/seed/cozy-blush-studio.png",
+      "verified": 1,
+      "owner_id": 1
+    },
+    {
+      "id": 2,
+      "title": "Bright Private Room near Yaba",
+      "description": "A furnished private room in a women-only shared apartment with a study desk, wardrobe, air conditioning and shared kitchen facilities.",
+      "location": "Yaba, Lagos",
+      "price": 720000,
+      "type": "Shared apartment",
+      "image": "http://localhost:4000/uploads/seed/bright-yaba-room.png",
+      "verified": 1,
+      "owner_id": 1
+    },
+    {
+      "id": 3,
+      "title": "Modern One-Bed Apartment in Ikeja",
+      "description": "A warm one-bedroom apartment in a quiet residential area with good natural light, fitted kitchen, living room and secure compound.",
+      "location": "Ikeja GRA, Lagos",
+      "price": 1800000,
+      "type": "Apartment",
+      "image": "http://localhost:4000/uploads/seed/modern-ikeja-apartment.png",
+      "verified": 1,
+      "owner_id": 2
+    },
+    {
+      "id": 4,
+      "title": "Premium Ensuite Room in Ikoyi",
+      "description": "Spacious ensuite bedroom in a premium shared apartment. Includes wardrobe space, air conditioning, a study area and access to a furnished lounge.",
+      "location": "Ikoyi, Lagos",
+      "price": 1650000,
+      "type": "Shared apartment",
+      "image": "http://localhost:4000/uploads/seed/premium-ikoyi-bedroom.png",
+      "verified": 1,
+      "owner_id": 2
+    },
+    {
+      "id": 5,
+      "title": "Affordable Shared Room in Akoka",
+      "description": "A tidy two-person room designed for students and young professionals. Includes individual study desks, wardrobe storage and easy access to Yaba.",
+      "location": "Akoka, Lagos",
+      "price": 480000,
+      "type": "Shared apartment",
+      "image": "http://localhost:4000/uploads/seed/akoka-shared-room.png",
+      "verified": 1,
+      "owner_id": 1
+    },
+    {
+      "id": 6,
+      "title": "City View Studio in Victoria Island",
+      "description": "A stylish studio with city views, furnished living area, modern bathroom and compact kitchen. Ideal for a professional working on the Island.",
+      "location": "Victoria Island, Lagos",
+      "price": 2500000,
+      "type": "Studio",
+      "image": "http://localhost:4000/uploads/seed/vi-city-studio.png",
+      "verified": 1,
+      "owner_id": 2
+    },
+    {
+      "id": 7,
+      "title": "Calm Two-Bed Apartment in Gbagada",
+      "description": "A comfortable two-bedroom apartment in a secure compound with spacious living room, good road access and reliable neighbourhood amenities.",
+      "location": "Gbagada, Lagos",
+      "price": 1550000,
+      "type": "Apartment",
+      "image": "http://localhost:4000/uploads/seed/gbagada-apartment.png",
+      "verified": 0,
+      "owner_id": 1
+    },
+    {
+      "id": 8,
+      "title": "Cozy Room in Surulere",
+      "description": "A clean private room in a friendly women-only flat, close to public transport, supermarkets and major roads.",
+      "location": "Surulere, Lagos",
+      "price": 650000,
+      "type": "Shared apartment",
+      "image": "http://localhost:4000/uploads/seed/surulere-room.png",
+      "verified": 1,
+      "owner_id": 2
+    }
+  ],
+  "roommate_profiles": [
+    {
+      "user_id": 4,
+      "bio": "Product designer working hybrid. I am looking for a calm roommate and a bright apartment around Yaba or Surulere.",
+      "location": "Yaba, Lagos",
+      "budget": 750000,
+      "move_in": "October 2026",
+      "lifestyle": "Quiet, tidy, non-smoker, likes cooking and early nights."
+    },
+    {
+      "user_id": 5,
+      "bio": "Graduate trainee working on the Island. I am easy-going and looking for someone respectful to share a two-bedroom apartment.",
+      "location": "Lekki, Lagos",
+      "budget": 950000,
+      "move_in": "November 2026",
+      "lifestyle": "Friendly, organised, social on weekends, values personal space."
+    },
+    {
+      "user_id": 6,
+      "bio": "Software developer working mostly from home. Looking for a roommate around Ikeja or Maryland.",
+      "location": "Ikeja, Lagos",
+      "budget": 850000,
+      "move_in": "October 2026",
+      "lifestyle": "Very tidy, quiet weekdays, enjoys movies and gym sessions."
+    },
+    {
+      "user_id": 7,
+      "bio": "Master’s student looking for another student or young professional to share a comfortable place close to Yaba.",
+      "location": "Akoka, Lagos",
+      "budget": 550000,
+      "move_in": "September 2026",
+      "lifestyle": "Studious, clean, early riser, prefers a peaceful home."
+    },
+    {
+      "user_id": 8,
+      "bio": "Marketing professional. I would love a clean, secure apartment with another working woman around VI, Oniru or Lekki.",
+      "location": "Victoria Island, Lagos",
+      "budget": 1300000,
+      "move_in": "December 2026",
+      "lifestyle": "Outgoing but respectful, neat, enjoys hosting occasionally."
+    }
+  ],
+  "favorites": [
+    {
+      "user_id": 4,
+      "property_id": 2
+    },
+    {
+      "user_id": 4,
+      "property_id": 8
+    },
+    {
+      "user_id": 5,
+      "property_id": 1
+    },
+    {
+      "user_id": 5,
+      "property_id": 6
+    },
+    {
+      "user_id": 6,
+      "property_id": 3
+    },
+    {
+      "user_id": 8,
+      "property_id": 6
+    }
+  ],
+  "reviews": [
+    {
+      "user_id": 4,
+      "property_id": 1,
+      "rating": 5,
+      "comment": "The space looks exactly like the listing and the area feels convenient and secure."
+    },
+    {
+      "user_id": 5,
+      "property_id": 1,
+      "rating": 4,
+      "comment": "Very lovely studio. The landlord also responded quickly to my questions."
+    },
+    {
+      "user_id": 7,
+      "property_id": 2,
+      "rating": 5,
+      "comment": "Great option for someone working or studying around Yaba."
+    },
+    {
+      "user_id": 6,
+      "property_id": 3,
+      "rating": 4,
+      "comment": "Quiet environment and plenty of natural light."
+    },
+    {
+      "user_id": 8,
+      "property_id": 6,
+      "rating": 5,
+      "comment": "Beautiful apartment and excellent location for Island work."
+    },
+    {
+      "user_id": 4,
+      "property_id": 8,
+      "rating": 4,
+      "comment": "Simple, clean and reasonably priced for the area."
+    }
+  ],
+  "bookings": [
+    {
+      "user_id": 4,
+      "property_id": 2,
+      "message": "Hi Amaka, I would like to arrange a viewing this weekend if possible.",
+      "status": "APPROVED"
+    },
+    {
+      "user_id": 5,
+      "property_id": 1,
+      "message": "I work in Lekki and I am interested in moving in next month.",
+      "status": "PENDING"
+    },
+    {
+      "user_id": 6,
+      "property_id": 3,
+      "message": "Please let me know if I can inspect the apartment after work on Friday.",
+      "status": "PENDING"
+    },
+    {
+      "user_id": 8,
+      "property_id": 6,
+      "message": "I am interested in the studio and would like to know the earliest available viewing date.",
+      "status": "APPROVED"
+    },
+    {
+      "user_id": 7,
+      "property_id": 5,
+      "message": "I am a student nearby and would love to see the room.",
+      "status": "DECLINED"
+    }
+  ],
+  "messages": [
+    {
+      "sender_id": 4,
+      "receiver_id": 1,
+      "text": "Hello, I saw the Yaba room on SheNest. Is it still available?"
+    },
+    {
+      "sender_id": 1,
+      "receiver_id": 4,
+      "text": "Hi Ada, yes it is still available. You can send a booking request for a viewing."
+    },
+    {
+      "sender_id": 4,
+      "receiver_id": 1,
+      "text": "Perfect, I have just sent one. Thank you."
+    },
+    {
+      "sender_id": 5,
+      "receiver_id": 8,
+      "text": "Hi Rita, I saw that you are also searching around VI and Lekki. Are you open to a two-bedroom apartment?"
+    },
+    {
+      "sender_id": 8,
+      "receiver_id": 5,
+      "text": "Hi Zainab, yes definitely. My main priorities are security, cleanliness and easy access to work."
+    },
+    {
+      "sender_id": 6,
+      "receiver_id": 7,
+      "text": "Hi Chioma, your roommate profile sounds like we have similar home habits."
+    },
+    {
+      "sender_id": 7,
+      "receiver_id": 6,
+      "text": "Hi Temi! I thought the same. I am happy to chat about locations and budget."
+    }
+  ]
+}
