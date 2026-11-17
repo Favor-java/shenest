@@ -13,7 +13,7 @@ cd server
 ./mvnw spring-boot:run
 ```
 
-Open http://localhost:4000.
+Open <http://localhost:4000>.
 
 ## Test and build
 
