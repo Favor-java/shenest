@@ -1,4 +1,4 @@
-# SheNest
+# SheNest.
 
 SheNest helps women find accommodation and roommates. Built with Java Spring Boot,
 Thymeleaf and SQLite, it supports property listings, favorites, bookings and messaging.
