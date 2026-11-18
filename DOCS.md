@@ -1,4 +1,4 @@
-# SheNest Project Report
+# SheNest Project Report.
 
 ## 1. Executive summary
 
