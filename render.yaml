@@ -11,3 +11,7 @@ services:
         value: /data/shenest.db
       - key: UPLOAD_DIR
         value: /data/uploads
+      - key: SHENEST_SEED
+        value: "true"
+      - key: SHENEST_SEED_BASE_URL
+        value: https://shenest.onrender.com
