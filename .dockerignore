@@ -1,0 +1,8 @@
+.git
+server/target
+server/data
+server/uploads
+server/.env
+.aws
+outputs
+presentation

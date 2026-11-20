@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: shenest
+    runtime: docker
+    plan: starter        # persistent disks require a paid plan
+    healthCheckPath: /
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_PATH
+        value: /data/shenest.db
+      - key: UPLOAD_DIR
+        value: /data/uploads
+    disk:
+      name: shenest-data
+      mountPath: /data
+      sizeGB: 1
